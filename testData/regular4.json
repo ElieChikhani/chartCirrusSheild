@@ -1,0 +1,42 @@
+{
+    "Data": [
+      {
+        "Name": "2018",
+        "Value": 30,
+        "Value2" : 20 
+
+      },
+
+      {
+        "Name": "2019",
+        "Value": 50,
+        "Value2" : 40 
+      },
+
+      {
+        "Name": "2020",
+        "Value": 90,
+        "Value2" : 2
+      },
+
+      {
+        "Name": "2021",
+        "Value": 40,
+        "Value2" : 40
+      },
+
+      {
+        "Name": "2022",
+        "Value": 100,
+        "Value2" : 70
+      }
+     
+    ],
+
+    "DataChartType": "LineChart",
+    "DataChartXFieldLabel": "Date de creation",
+    "DataChartYFeildLabel": "Nb. de devis" ,
+    "DataChartYFeildLabel2":"Nb de factures"
+  
+
+  }

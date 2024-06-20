@@ -1,0 +1,35 @@
+{
+    "Data": [
+      {
+        "Name": "2018",
+        "Value": 2
+
+      },
+
+      {
+        "Name": "2019",
+        "Value": 4
+      },
+
+      {
+        "Name": "2020",
+        "Value": 8
+      },
+
+      {
+        "Name": "2021",
+        "Value": 16
+      },
+
+      {
+        "Name": "2022",
+        "Value": 32
+      }
+     
+    ],
+
+    "DataChartType": "LineChart",
+    "DataChartXFieldLabel": "Date de creation",
+    "DataChartYFeildLabel": "Nb. d'employes" 
+
+  }

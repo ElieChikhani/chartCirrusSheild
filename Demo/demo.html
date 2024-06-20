@@ -1,0 +1,112 @@
+<html>
+
+<head>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/chartjs-chart-funnel@4.2.1/build/index.umd.min.js"></script>
+    <link rel="stylesheet" href="demoStyle.css">
+
+</head>
+
+<body>
+
+    <div id="container">
+
+
+    <div id="chartContainer"> 
+
+        <h3> Chart view in cirrus sheild </h3>
+
+    <div id="dataVisuals">
+    <canvas id="myChart"> 
+    </canvas>
+
+    </div>
+
+    <div id="dynamicOptions">
+
+    <div id="barOptions" style="display:none">
+        <input type="radio" id="vertical">
+        <label> Barre Vertical </label>
+
+        <input type="radio" id="horizontal">
+        <label> Barre Horizontal </label>
+
+        <div id="stackOption" style="display:none">
+        <input type="checkbox" id="stack">
+        <label> Empile </label>
+        </div>
+
+    </div>
+
+    <div id="scaleOption" style="display:none">
+    <label for="scale">Echelle</label>
+    <input type="number" id="scale" name="scale" min="1" max="1000000" step="1">
+    </div>
+
+    </div>
+
+    <div id="customTooltip" style="margin-left: 20px; padding: 10px; display:none" ></div>
+
+    </div>
+
+
+    <div id="demo">
+        <h3> Demo settings :</h3>
+
+        <div id="testData">
+
+            <label for="testFile"> Select test data file </label>
+            <select id="testFile">
+            <option value="regular1.json"> RegularTestData1 </option>
+            <option value="regular2.json"> RegularTestData2 </option>
+            <option value="regular3.json"> RegularTestData3 </option>
+            <option value="regular4.json"> RegularTestData4 </option>
+            <option value="regular5.json"> RegularTestData5 </option>
+            <option value="regular6.json"> RegularTestData6 </option>
+            <option value="regular7.json"> RegularTestData7 </option>
+            <option value="grouped1.json"> GroupedTestData1 </option>
+            <option value="grouped2.json"> GroupedTestData2 </option>
+            <option value="grouped3.json"> GroupedTestData3 </option>
+            <option value="grouped4.json"> GroupedTestData4 </option>
+        </select>
+
+        <button id="testButton"> Test </button>
+
+        </div>
+
+        <div id="userSelection">
+
+            <h4 class="userChoice" id="typeSelection"> Type :  </h4> 
+            <p class="userChoice" id="chartType">  </p>
+            
+            <h4 class="userChoice" id="xSelection"> AXE X :  </h4> 
+            <p class="userChoice" id="xAxis">  </p>
+
+            <h4 class="userChoice" id="ySelection"> AXE Y :  </h4> 
+            <p class="userChoice" id="yAxis">  </p>
+
+            <h4 class="userChoice" id="ySelection"> AXE Y(2): </h4>
+            <p class="userChoice" id="yAxis2"> </p>
+
+            <h4 class="userChoice" id="groupSelection"> Groupe par :  </h4>
+            <p class="userChoice" id="group"> </p>
+
+
+
+        </div>
+      
+
+
+    </div>
+
+
+
+    </div>
+
+
+
+<script src="demoScript.js"> </script>
+
+</body>
+</html>

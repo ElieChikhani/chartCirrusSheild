@@ -1,0 +1,34 @@
+{
+    "Data": [
+      {
+        "Name": "Agriculture",
+        "Value": 10000,
+        "ChartJS_Color": "rgb(0,0,255)"
+
+      },
+
+      {
+        "Name": "Association",
+        "Value": 9000,
+        "ChartJS_Color": "rgb(0,255,0)"
+      },
+
+      {
+        "Name": "Assurance",
+        "Value": 8000,
+        "ChartJS_Color": "rgb(255,0,0)"
+      },
+
+      {
+        "Name": "Education",
+        "Value": 5000,
+        "ChartJS_Color": "rgb(255,0,255)"
+      }
+     
+    ],
+
+    "DataChartType": "VerticalBarChart",
+    "DataChartXFieldLabel": "Secteur d'activité",
+    "DataChartYFeildLabel": "Montant total" 
+
+  }

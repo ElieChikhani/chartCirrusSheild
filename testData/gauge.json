@@ -1,0 +1,45 @@
+{
+    "Data": [
+      {
+        "Name": "Agriculture",
+        "Value": 100,
+        "Dataset":[20,30,40],
+        "ChartJS_Color": ["red","yellow","green"]
+
+      },
+
+      {
+        "Name": "Association",
+        "Value": 20,
+        "Dataset":[20,30,40],
+        "ChartJS_Color": ["red","yellow","green"]
+      },
+
+      {
+        "Name": "Assurance",
+        "Value": 30,
+        "Dataset":[20,30,40],
+        "ChartJS_Color": ["red","yellow","green"]
+      },
+
+      {
+        "Name": "Education",
+        "Value": 70,
+        "Dataset":[20,30,40],
+        "ChartJS_Color": ["red","yellow","green"]
+      },
+
+      {
+        "Name": "Technologie",
+        "Value": 70,
+        "Dataset":[20,30,40],
+        "ChartJS_Color": ["red","yellow","green"]
+      }
+     
+    ],
+
+    "DataChartType": "gauge",
+    "DataChartXFieldLabel": "Secteur d'activité",
+    "DataChartYFeildLabel": "Nb d'employes" 
+
+  }

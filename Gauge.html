@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Graphique Options</title>
+<style>
+    body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 40px; }
+    .container { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+    .form-group { display: flex; justify-content: space-between; margin-bottom: 20px; }
+    .form-group div { flex: 1; margin: 0 8px; }
+    .form-group input, .form-group select { width: 100%; padding: 8px; border: none; border-bottom: 1px solid #ccc; }
+    label { font-size: 16px; color: grey; display: block; margin-bottom: 5px; }
+    .required::after { content: '*'; color: red; }
+    input::placeholder { font-style: italic; }
+    select { appearance: none; background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 140"><polygon points="70,90 40,50 100,50" style="fill: black;"/></svg>') no-repeat right 0.75rem center/20px 20px; }
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="form-group">
+        <input type="text" placeholder="Nom du graphique">
+    </div>
+    <div class="form-group">
+        <div>
+            <label for="chartType" class="required">Type de graphique:</label>
+            <select id="chartType">
+                <option value="Batton">Diagramme en aire polaire</option>
+                <option value="line">Line</option>
+                <option value="pie">Pie</option>
+            </select>
+        </div>
+        <div>
+            <label for="xAxis" class="required">Axe X:</label>
+            <select id="xAxis">
+                <option value="option1">--Aucun--</option>
+                <option value="option2">Option 2</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <div>
+            <label for="yAxis" class="required">Axe Y:</label>
+            <select id="yAxis">
+                <option value="option1">--Aucun--</option>
+                <option value="option2">Option 2</option>
+            </select>
+        </div>
+        <div>
+            <!--
+            <label for="groupBy">Par groupe:</label>
+            <select id="groupBy">
+                <option value="category1">-Aucun--</option>
+                <option value="category2">Category 2</option>
+            </select>
+        -->
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label for="rangeRed" class="required">Intervalle Rouge:</label>
+        <input type="text" id="rangeRed" placeholder="e.g., 0-30">
+    </div>
+    <div class="form-group">
+        <label for="rangeYellow" class="required">Intervalle Jaune:</label>
+        <input type="text" id="rangeYellow" placeholder="e.g., 31-70">
+    </div>
+    <div class="form-group">
+        <label for="rangeGreen" class="required">Intervalle Vert:</label>
+        <input type="text" id="rangeGreen" placeholder="e.g., 71-100">
+    </div>
+</div>
+</div>
+</body>
+</html>

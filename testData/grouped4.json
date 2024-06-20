@@ -1,0 +1,68 @@
+{
+    "Data": [
+      {
+        "Name": "2019-Agriculture",
+        "Value": 4,
+        "ChartJS_Color": "rgb(0,0,255)"
+
+      },
+
+      {
+        "Name": "2020-Agriculture",
+        "Value": 20,
+        "ChartJS_Color": "rgb(0,0,255)"
+      },
+
+      {
+        "Name": "2021-Agriculture",
+        "Value": 30,
+        "ChartJS_Color": "rgb(0,0,255)"
+      },
+
+      {
+        "Name": "2019-Assurance",
+        "Value": 6,
+        "ChartJS_Color": "rgb(0,255,0)"
+
+      },
+
+      {
+        "Name": "2020-Assurance",
+        "Value": 22,
+        "ChartJS_Color": "rgb(0,255,0)"
+      },
+
+      {
+        "Name": "2021-Assurance",
+        "Value": 40,
+        "ChartJS_Color": "rgb(0,255,0)"
+      },
+
+      {
+        "Name": "2019-Association",
+        "Value": 9,
+        "ChartJS_Color": "rgb(255,0,0)"
+
+      },
+
+      {
+        "Name": "2020-Association",
+        "Value": 30,
+        "ChartJS_Color": "rgb(255,0,0)"
+      },
+
+      {
+        "Name": "2021-Association",
+        "Value": 50,
+        "ChartJS_Color": "rgb(255,0,0)"
+      }
+
+     
+    ],
+
+    "DataChartType": "LineChart",
+    "DataChartXFieldLabel": "Date de creation",
+    "DataChartYFeildLabel": "Cumulatif Nb. d'employes",
+    "GroupedBy":"Secteur d'activite" 
+
+  }

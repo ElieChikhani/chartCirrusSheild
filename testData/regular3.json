@@ -1,0 +1,41 @@
+{
+    "Data": [
+      {
+        "Name": "Agriculture",
+        "Value": 34,
+        "ChartJS_Color": "rgb(0,0,255)"
+
+      },
+
+      {
+        "Name": "Association",
+        "Value": 20,
+        "ChartJS_Color": "rgb(0,255,0)"
+      },
+
+      {
+        "Name": "Assurance",
+        "Value": 50,
+        "ChartJS_Color": "rgb(255,0,0)"
+      },
+
+      {
+        "Name": "Education",
+        "Value": 10,
+        "ChartJS_Color": "rgb(255,0,255)"
+      },
+
+      {
+        "Name": "Technology",
+        "Value": 100,
+        "ChartJS_Color": "rgb(0,0,27)"
+      }
+
+     
+    ],
+
+    "DataChartType": "doughnut",
+    "DataChartXFieldLabel": "Secteur d'activité",
+    "DataChartYFeildLabel": "Nb. d'employes" 
+
+  }

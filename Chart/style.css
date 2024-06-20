@@ -1,0 +1,43 @@
+body {
+    display:flex; 
+    align-content:center; 
+    justify-content: center;
+    font-family: Arial, sans-serif; 
+    background-color: #f4f4f4; 
+}
+
+#chartViewContainer{
+    justify-content:center; 
+    width:70%;  
+    justify-self:center;
+    padding: 20px;
+    height: 100%; 
+    background: white; 
+    border-radius: 8px; 
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    
+}
+
+#scaleOption{
+    margin-left:1%; 
+}
+
+
+/**
+#newChart {
+    display:block; 
+    height:auto; 
+    padding: 20px;
+    max-height: 100%;
+    max-width:100%;  
+    
+}
+*/
+    
+
+.gaugeCanvas {
+    flex: 0 0 30.33%; /* Subtract the total horizontal margins from the width */
+    max-width: 30.33%; /* Do not grow, do not shrink, take up roughly one third */
+    margin:1%; 
+    max-height:50%; 
+}

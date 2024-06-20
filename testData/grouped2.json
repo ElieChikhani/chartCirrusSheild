@@ -1,0 +1,39 @@
+{
+    "Data": [
+      {
+        "Name": "ALFIE-Agriculture",
+        "Value": 4,
+        "ChartJS_Color": "rgb(0,0,255)",
+        "Record_Url":"https://beta.cirrus-shield.net/Data/Details/3337860612284746008?objectName=Account&retAction=Index"
+      },
+
+      {
+        "Name": "AMPHABIAN-Association",
+        "Value": 20,
+        "ChartJS_Color": "rgb(0,255,0)",
+        "Record_Url":"https://beta.cirrus-shield.net/Data/Details/3343716632471013827?objectName=Account&retAction=Index"
+      },
+
+      {
+        "Name": "CHANBON-Agriculture",
+        "Value": 100,
+        "ChartJS_Color": "rgb(0,0,255)",
+        "Record_Url":"https://beta.cirrus-shield.net/Data/Details/3343716632479402442?objectName=Account&retAction=Index"
+      },
+
+      {
+        "Name": "Cirrus Sheild-Assurance",
+        "Value": 50,
+        "ChartJS_Color": "rgb(255,0,0)",
+        "Record_Url":"https://beta.cirrus-shield.net/Data/Details/3053098491371850160?objectName=Account&retAction=Index"
+      }
+
+     
+    ],
+
+    "DataChartType": "VerticalBarChart",
+    "DataChartXFieldLabel": "Nom",
+    "DataChartYFeildLabel": "Nb. d'employes", 
+    "GroupedBy":"Secteur d'activite" 
+
+  }

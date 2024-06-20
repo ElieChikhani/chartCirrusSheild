@@ -1,0 +1,34 @@
+{
+  "Data": [
+    {
+      "Name": "Brouillon",
+      "Value": 20,
+      "ChartJS_Color": "grey"
+
+    },
+
+    {
+      "Name": "Envoye",
+      "Value": 15,
+      "ChartJS_Color": "blue"
+    },
+
+    {
+      "Name": "Perdu",
+      "Value": 9,
+      "ChartJS_Color": "red"
+    },
+
+    {
+      "Name": "Gagné",
+      "Value": 6,
+      "ChartJS_Color": "yellow"
+    }
+   
+  ],
+
+  "DataChartType": "funnel",
+  "DataChartXFieldLabel": "Status",
+  "DataChartYFeildLabel": "Nb de devis" 
+
+}

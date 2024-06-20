@@ -1,0 +1,68 @@
+{
+    "Data": [
+      {
+        "Name": "Agriculture-Liban",
+        "Value": 4,
+        "ChartJS_Color": "rgb(0,0,255)"
+
+      },
+
+      {
+        "Name": "Agriculture-France",
+        "Value": 20,
+        "ChartJS_Color": "rgb(0,0,255)"
+      },
+
+      {
+        "Name": "Agriculture-Pologne",
+        "Value": 31,
+        "ChartJS_Color": "rgb(0,0,255)"
+      },
+
+      {
+        "Name": "Assurance-Liban",
+        "Value": 6,
+        "ChartJS_Color": "rgb(0,255,0)"
+
+      },
+
+      {
+        "Name": "Assurance-France",
+        "Value": 22,
+        "ChartJS_Color": "rgb(0,255,0)"
+      },
+
+      {
+        "Name": "Assurance-Pologne",
+        "Value": 40,
+        "ChartJS_Color": "rgb(0,255,0)"
+      },
+
+      {
+        "Name": "Association-Liban",
+        "Value": 4,
+        "ChartJS_Color": "rgb(255,0,0)"
+
+      },
+
+      {
+        "Name": "Association-France",
+        "Value": 20,
+        "ChartJS_Color": "rgb(255,0,0)"
+      },
+
+      {
+        "Name": "Association-Pologne",
+        "Value": 35,
+        "ChartJS_Color": "rgb(255,0,0)"
+      }
+
+     
+    ],
+
+    "DataChartType": "VerticalBarChart",
+    "DataChartXFieldLabel": "Secteur d'activité",
+    "DataChartYFeildLabel": "Nb. d'employes",
+    "GroupedBy":"Pays" 
+
+  }
