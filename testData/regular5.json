@@ -33,7 +33,7 @@
      
     ],
 
-    "DataChartType": "mixed",
+    "DataChartType": "LineChart",
     "DataChartXFieldLabel": "Date de creation",
     "DataChartYFeildLabel": "Nb. de facture" ,
     "DataChartYFeildLabel2":"Nb de devis",

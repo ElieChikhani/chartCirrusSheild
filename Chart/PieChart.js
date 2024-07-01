@@ -17,112 +17,43 @@ export default class PieChart extends BaseChart {
         return ('Repartition du '+this.yAxisLabel+' par '+this.xAxisLabel+groupement); 
     }
 
-    getDrawLinePlugin(){ 
-      return {
-        id: 'drawLinePlugin',
-    
-        beforeDatasetsDraw(chart, args, options) {
-          const { ctx, chartArea } = chart;
-          const centerX = (chartArea.left + chartArea.right) / 2;
-          const centerY = (chartArea.top + chartArea.bottom) / 2;
-    
-          chart.data.datasets.forEach((dataset, datasetIndex) => {
-            const meta = chart.getDatasetMeta(datasetIndex);
-            meta.data.forEach((element, index) => {
-              if (!element.hidden) {
-                const midAngle = (element.startAngle + element.endAngle) / 2;
-                const radius = element.outerRadius;
-                const startX = centerX + Math.cos(midAngle) * radius;
-                const startY = centerY + Math.sin(midAngle) * radius;
-                const angleX = startX + Math.cos(midAngle) * 30;
-                const angleY = startY + Math.sin(midAngle) * 30;
-                const endX = startX < centerX ? angleX - 50 : angleX + 60;
-    
-                ctx.save();
-                ctx.beginPath();
-                ctx.moveTo(startX, startY);  // Start from the edge of the segment
-                ctx.lineTo(angleX, angleY);  // Draw angled line
-                ctx.lineTo(endX, angleY);  // Draw horizontally
-                ctx.strokeStyle = '#a6a6a6'; // Line color
-                ctx.lineWidth = 2; // Line width
-                ctx.stroke();
-                ctx.restore();
-    
-                // Store end position
-                element.endX = endX;
-                element.endY = angleY;
-                element.centerX = centerX; 
-                element.startX = startX; 
-              }
-            });
-          });
-        },
-    
-        afterDatasetsDraw(chart, args, options) {
-          const { ctx, chartArea } = chart;
-          const datasets = chart.data.datasets;
-    
-          ctx.save();
-          ctx.font = 'bold 12px Lucida Bright';
-          ctx.fillStyle = 'black';
-    
-          datasets.forEach((dataset, datasetIndex) => {
-            const meta = chart.getDatasetMeta(datasetIndex);
-            meta.data.forEach((element, index) => {
-              if (!element.hidden) {
-                const value = dataset.data[index];
-                const total = dataset.data.reduce((sum, val, i) => {
-                  return meta.data[i].hidden ? sum : sum + val;
-                }, 0);
-                const percentage = ((value / total) * 100).toFixed(1) + '%';
-    
-                // Calculate the label position
-                const endX = element.endX;
-                const endY = element.endY;
-                const centerX=element.centerX; 
-                const startX = element.startX; 
-    
-                // Draw the value above the line and percentage below it
-                ctx.textAlign = 'center';
-                ctx.fillText(value, startX < centerX ? endX+10: endX -5, endY - 10);  // Value above the line
-                ctx.fillText(percentage, startX < centerX ? endX+10: endX -5, endY + 10);  // Percentage below the line
-              }
-            });
-          });
-    
-          ctx.restore();
-        }
-      }; 
-    }
+    getPluginsExtention(){
 
-    getDatalabels() { 
+      let plugins = []; 
+
+         plugins.push(this.getLegendMargin());
+         plugins.push(ChartDataLabels); //from the extension
+         plugins.push(this.getDatalabels()); 
+         
+        if(this.grouped){
+    
+         plugins.push({
+            id: 'outerLabel',
+            afterDraw: (chart) => this.drawOuterLabels(chart) //after render : only after the first drawing not after any updates
+         })
+       }
+    
+      return plugins; 
+    
+    }
+    
+    getDatalabels() {
       return {
         formatter: (value, context) => {
-          const dataset = context.chart.data.datasets[context.datasetIndex];
-          const meta = context.chart.getDatasetMeta(context.datasetIndex);
-          const element = meta.data[context.dataIndex];
-    
-          if (element.hidden) {
-            return null;
-          }
-    
-          const total = dataset.data.reduce((sum, val, i) => {
-            return meta.data[i].hidden ? sum : sum + val;
-          }, 0);
-          const percentage = ((value / total) * 100).toFixed(1) + '%';
-          return value + '\n' + percentage;
+         let percentage = this.getPercentage(value,context); 
+          return ((percentage>7)? value + '\n' + percentage+' % ' : '');
         },
+
         color: (context) => {
-          const dataset = context.chart.data.datasets[context.datasetIndex];
-          const meta = context.chart.getDatasetMeta(context.datasetIndex);
-          const bgColor = meta.data[context.dataIndex].options.backgroundColor;
-          const color = this.isLight(bgColor) ? 'black' : 'white'; // Adjust color based on background
+          let dataset = context.chart.data.datasets[context.datasetIndex];
+          let bgColor = dataset.backgroundColor[context.dataIndex]; // Use the base background color
+          let color = this.isLight(bgColor) ? 'black' : 'white'; // Determine color based on initial background color
           return color;
         },
         font: {
           weight: 'bold',
           size: 12,
-          family: 'Arial'  // Updated to use Georgia font for more style
+          family: 'Arial'
         },
         anchor: 'center',
         align: 'center',
@@ -178,7 +109,9 @@ export default class PieChart extends BaseChart {
 
     getOptions(){
       let options = super.getOptions();
+      console.log(options); 
       options.aspectRatio=1.5
+      options.plugins.tooltip=this.getTooltip()
       return options; 
     }
 
@@ -199,28 +132,6 @@ export default class PieChart extends BaseChart {
 
     }
 
-    getPluginsExtention(){
-
-        let plugins = []; 
-
-           plugins.push(this.getLegendMargin())
-           
-          if(this.grouped){
-      
-           plugins.push({
-              id: 'outerLabel',
-              afterDraw: (chart) => this.drawOuterLabels(chart) //after render : only after the first drawing not after any updates
-           })
-           plugins.push(ChartDataLabels);
-           plugins.push(this.getDatalabels()); 
-         }else{
-          plugins.push(this.getDrawLinePlugin()); 
-         }
-      
-        return plugins; 
-      
-    }
-      
     drawOuterLabels(chart) {
       let ctx = chart.ctx;
       let datasets = chart.data.datasets;
@@ -236,10 +147,10 @@ export default class PieChart extends BaseChart {
           return firstNonHiddenArc ? firstNonHiddenArc.outerRadius : 0;
       }));
   
-      const horizontalOffset = 50; // Length of horizontal lines outside the chart
-      const verticalSpacing = 30; // Vertical spacing between horizontal lines
-      const angleLength = 20; // Length of the angled line segment
-      const fixedAngle = Math.PI / 4; // Fixed angle (45 degrees)
+      let horizontalOffset = 50; // Length of horizontal lines outside the chart
+      let verticalSpacing = 30; // Vertical spacing between horizontal lines
+      let angleLength = 20; // Length of the angled line segment
+      let fixedAngle = Math.PI / 4; // Fixed angle (45 degrees)
   
       // Fixed end point for the horizontal lines
       const fixedEndX = this.chartArea.right + horizontalOffset;
@@ -250,19 +161,19 @@ export default class PieChart extends BaseChart {
   
           if (!firstNonHiddenArc) return; // Skip if all data points are hidden
   
-          const radius = firstNonHiddenArc.outerRadius; // Outer radius of the arc
+          let radius = firstNonHiddenArc.outerRadius; // Outer radius of the arc
   
           // Calculate start position at the top edge of the circle
-          const startX = this.centerX;
-          const startY = this.centerY - radius;
+          let startX = this.centerX;
+          let startY = this.centerY - radius;
   
           // Calculate the endpoint of the angled line segment
-          const angledEndX = startX + angleLength * Math.cos(fixedAngle);
-          const angledEndY = startY - angleLength * Math.sin(fixedAngle);
+          let angledEndX = startX + angleLength * Math.cos(fixedAngle);
+          let angledEndY = startY - angleLength * Math.sin(fixedAngle);
   
           // Calculate the start position of the horizontal line
-          const endX = fixedEndX;
-          const endY = angledEndY;
+          let endX = fixedEndX;
+          let endY = angledEndY;
   
           // Draw the angled line segment
           ctx.save();
@@ -358,6 +269,35 @@ export default class PieChart extends BaseChart {
       }
     }
 
+    }
+
+    getPercentage(value,context){
+      let dataset = context.chart.data.datasets[context.datasetIndex];
+      let meta = context.chart.getDatasetMeta(context.datasetIndex);
+      let element = meta.data[context.dataIndex];
+    
+      if (element.hidden) {
+        return null;
+      }
+    
+      let total = dataset.data.reduce((sum, val, i) => {
+        return meta.data[i].hidden ? sum : sum + val;
+      }, 0);
+      
+      return ((value / total) * 100).toFixed(1);
+    }
+
+    getTooltip(){
+      let that=this; 
+      return {
+        callbacks: {
+          label: function(tooltipItem) {
+            let value = tooltipItem.raw;
+            let percentage = that.getPercentage(value, tooltipItem);
+            return `${value} (${percentage}%)`;
+        }
+        }
+      }
     }
 
 }

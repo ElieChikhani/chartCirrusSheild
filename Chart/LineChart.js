@@ -6,6 +6,7 @@ export default class LineChart extends BaseChart{
     constructor(clx,fetchedData){
        super(clx,fetchedData); 
        this.setYAxisLabel2(); 
+       this.chartData = this.mapData(); 
        this.setConfig(); 
     }
 
@@ -18,8 +19,9 @@ export default class LineChart extends BaseChart{
     }
 
     getTitle(){
-    let secondYData = this.yAxisLabel2?' et '+this.yAxisLabel2:''; 
-    return ('Tendance' + ' des ' + this.yAxisLabel + secondYData + ' par ' + this.xAxisLabel + ' groupé par '+ this.groupLabel);
+    let secondYData = this.yAxisLabel2?' et '+this.yAxisLabel2:''
+    let grouping = this.isGrouped()? ' groupé par '+ this.groupLabel :''
+    return ('Tendance' + ' des ' + this.yAxisLabel + secondYData + ' par ' + this.xAxisLabel+grouping);
     }
 
     mapData(){
@@ -29,7 +31,6 @@ export default class LineChart extends BaseChart{
             data=this.getGroupedData(); 
         }else {
             data=super.mapData(); 
-
             if(this.yAxisLabel2){
                 data.datasets[0].label = this.yAxisLabel; 
                 data.datasets[0].type = this.jsonData.Type1; 
@@ -41,13 +42,14 @@ export default class LineChart extends BaseChart{
             }
         }
 
+        console.log(data); 
         return data; 
 
     }
 
     getPlugins(){
         let plugins=super.getPlugins(); 
-        plugins.legend.display=this.grouped || this.yAxisLabel2;
+        plugins.legend.display=this.isGrouped() || this.yAxisLabel2 !== undefined;
         return plugins; 
     }
 

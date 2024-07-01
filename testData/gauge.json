@@ -34,6 +34,27 @@
         "Value": 70,
         "Dataset":[20,30,40],
         "ChartJS_Color": ["red","yellow","green"]
+      },
+
+      {
+        "Name": "Medecine",
+        "Value": 22,
+        "Dataset":[20,30,40],
+        "ChartJS_Color": ["red","yellow","green"]
+      },
+
+      {
+        "Name": "Banque",
+        "Value": 200,
+        "Dataset":[20,30,40],
+        "ChartJS_Color": ["red","yellow","green"]
+      },
+
+      {
+        "Name": "Chimie",
+        "Value": 200,
+        "Dataset":[20,30,40],
+        "ChartJS_Color": ["red","yellow","green"]
       }
      
     ],

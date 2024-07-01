@@ -1,43 +1,77 @@
 body {
     display:flex; 
-    align-content:center; 
-    justify-content: center;
-    font-family: Arial, sans-serif; 
+    flex-direction: column;
     background-color: #f4f4f4; 
 }
 
+#container {
+    display:flex; 
+    align-content:center; 
+    justify-content: center;
+    font-family: Arial, sans-serif;
+    height:100%; 
+}
+
+#dynamicOptions {
+    display : flex; 
+}
+
 #chartViewContainer{
+    display: flex;
     justify-content:center; 
     width:70%;  
-    justify-self:center;
     padding: 20px;
-    height: 100%; 
+    height: 70%; 
     background: white; 
     border-radius: 8px; 
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    
+    flex-wrap:wrap; 
+    overflow:auto; 
+}
+
+#newChart {
+    display:block;
 }
 
 #scaleOption{
     margin-left:1%; 
 }
 
-
-/**
-#newChart {
-    display:block; 
-    height:auto; 
-    padding: 20px;
-    max-height: 100%;
-    max-width:100%;  
-    
-}
-*/
-    
-
 .gaugeCanvas {
-    flex: 0 0 30.33%; /* Subtract the total horizontal margins from the width */
-    max-width: 30.33%; /* Do not grow, do not shrink, take up roughly one third */
+    flex: 0 0 25%; /* Subtract the total horizontal margins from the width */
+    max-width: 25%; /* Do not grow, do not shrink, take up roughly one third */
     margin:1%; 
     max-height:50%; 
+    overflow:visible !important; 
+}
+
+#userSelection {
+    display:flex; 
+    flex-wrap:wrap; 
+    margin-top:3%;
+}
+
+.userChoice{
+    flex:1 1 50%; 
+    margin:0px; 
+}
+
+.userChoice{
+    flex:1 1 50%; 
+    margin:0px; 
+}
+
+#reportDemo {
+    margin-top:100px; 
+    width:100%; 
+}
+
+.section {
+    border-style:solid;
+    margin:5px; 
+    transition: background-color 0.5s ease; /* Smooth transition */
+}
+
+table {
+    width:100%; 
 }

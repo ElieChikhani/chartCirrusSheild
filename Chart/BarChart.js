@@ -6,7 +6,6 @@ export default class BarChart extends BaseChart {
         super(clx,fetchedData);
     }
 
-
     getType(){
         return 'bar';
     }
@@ -15,6 +14,18 @@ export default class BarChart extends BaseChart {
         let groupement=this.grouped?' groupe par '+this.groupLabel:'';
         return ('Comparaison du '+this.yAxisLabel+' par '+this.xAxisLabel+groupement); 
 
+    }
+
+    stack(){
+        this.chart.config.options.scales.x.stacked=true; 
+        this.chart.config.options.scales.y.stacked=true;
+        this.update(); 
+    }
+
+    unstack(){
+        this.chart.config.options.scales.x.stacked=false;
+        this.chart.config.options.scales.y.stacked=false;
+        this.update(); 
     }
 
     mapData(){
@@ -41,7 +52,7 @@ export default class BarChart extends BaseChart {
     let datasetArray=[]; 
         
     for(let i=0; i<yData.length; i++){
-        
+
     datasetArray.push(
     {
     label : datasetsLabels[i],
@@ -77,7 +88,6 @@ export default class BarChart extends BaseChart {
         this.jsonData.Data.forEach(function(item){
           let categoryIndex= groupCategory.indexOf((item.Name).substring((item.Name).indexOf('-')+1));
           let elementIndex = xData.indexOf((item.Name).substring(0,(item.Name).indexOf('-')));
-          console.log(yData);
           yData[elementIndex][categoryIndex] = item.Value; 
         });
       
@@ -85,17 +95,5 @@ export default class BarChart extends BaseChart {
         return yData; 
        
     }
-
-    stack(){
-        this.chart.config.options.scales.x.stacked=true; 
-        this.chart.config.options.scales.y.stacked=true;
-        this.update(); 
-    }
-
-    unstack(){
-        this.chart.config.options.scales.x.stacked=false;
-        this.chart.config.options.scales.y.stacked=false;
-        this.update(); 
-    }
-
+    
 }

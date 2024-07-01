@@ -34,7 +34,7 @@
      
     ],
 
-    "DataChartType": "doughnut",
+    "DataChartType": "PieChart",
     "DataChartXFieldLabel": "Secteur d'activité",
     "DataChartYFeildLabel": "Nb. d'employes" 
 

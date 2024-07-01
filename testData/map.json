@@ -1,0 +1,22 @@
+{
+    "Data": [
+        {"country":"France", "value":10},
+        {"country":"Lebanon", "value":7},
+        {"country":"United States of America", "value":8},
+        {"country":"United Kingdom", "value":9},
+        {"country":"Germany", "value":6},
+        {"country":"Italy", "value":5},
+        {"country":"Spain", "value":4},
+        {"country":"Portugal", "value":3},
+        {"country":"Belgium", "value":2},
+        {"country":"Netherlands", "value":1},
+        {"country":"Russia", "value":5}
+        
+
+        
+    ],
+  
+    "DataChartType": "map",
+    "DataChartXFieldLabel": "Countries",
+    "DataChartYFeildLabel": "Nb. de compte"
+  }

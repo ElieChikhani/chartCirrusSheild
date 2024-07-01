@@ -53,6 +53,12 @@ export default class GaugeChart extends DoughnutChart {
         }
     }
 
+    getOptions(){
+        let options = super.getOptions(); 
+        options.onClick = {}; 
+        return options; 
+    }
+
     getPlugins(){
         let plugins=super.getPlugins(); 
         plugins.legend.display=false; 
@@ -134,6 +140,9 @@ export default class GaugeChart extends DoughnutChart {
 
         }
 
+    }
+
+    getTooltip(){
     }
 
 }

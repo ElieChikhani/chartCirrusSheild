@@ -6,7 +6,6 @@ export default class FunnelChart extends BaseChart {
         super(clx,fetchedData);
     }
 
-
     getType(){
         return 'funnel';
     }
@@ -18,9 +17,6 @@ export default class FunnelChart extends BaseChart {
 
     setConfig(){
         super.setConfig(); 
-
-        ChartDataLabels
-
         this.config.plugins=[ChartDataLabels]; 
     }
 

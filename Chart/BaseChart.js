@@ -11,18 +11,18 @@ export default class BaseChart {
     
 
     constructor(clx,fetchedData){
-        this.jsonData = fetchedData;
-        this.grouped=this.jsonData.Data[0].Name.includes('-'); 
+        this.jsonData=fetchedData; 
+        this.grouped=this.isGrouped(); 
         this.clx = clx;
         this.setXAxisLabel();
         this.setYAxisLabel();
         this.setGroupLabel();
         this.setConfig();
     }
-    
-    setJsonData(fetchedData){
-        this.jsonData = fetchedData;
-    }
+
+    isGrouped(){
+        return this.jsonData.Data[0].Name.includes('-')
+    } 
 
     getType(){
         throw new Error('Invalid type ! ')
@@ -55,10 +55,22 @@ export default class BaseChart {
     getOptions() {
         return {
             responsive:true,
+            maintainAspectRatio: false,
             indexAxis:'x',
             scales:this.getScales(),
             plugins:this.getPlugins(),
             layout:this.getLayout(),
+            onClick: (event, elements) => {
+              if (elements.length > 0) {
+                  const clickedElementIndex = elements[0].index;
+                  const sectionId = `section-${clickedElementIndex}`; 
+                  document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+                  document.getElementById(sectionId).style.backgroundColor = 'rgb(0,0,0,0.1)';
+                  setTimeout(() => {
+                  document.getElementById(sectionId).style.backgroundColor = 'white';
+                }, 500); 
+          }
+        } 
         }
 
     }
@@ -80,10 +92,8 @@ export default class BaseChart {
               align: 'center', 
               justify:'end'
         }
-
     }
-
-    }
+  }
 
     getScales(){
         return {
@@ -146,6 +156,10 @@ export default class BaseChart {
         this.chart = new Chart(this.clx,this.config)
     }
 
+    destroyChart(){
+      this.chart.destroy(); 
+    }
+
     update(){
       this.chart.update(); 
     }
@@ -158,9 +172,22 @@ export default class BaseChart {
         let tempScales = this.chart.config.options.scales.x; 
         this.chart.config.options.scales.x=this.chart.config.options.scales.y; 
         this.chart.config.options.scales.y=tempScales; 
-        this.chart.update(); 
+        this.update(); 
       }
-  }
+    }
+
+    updateScale(newScale,axis){
+      if (this.chart) {
+
+        if(axis==='x'){
+          this.chart.config.options.scales.x.ticks.stepSize=newScale;
+        }else {
+          this.chart.config.options.scales.y.ticks.stepSize=newScale;
+        }
+
+        this.update(); 
+      }
+    }
 
     //used for grouping :
 

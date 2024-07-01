@@ -1,0 +1,47 @@
+{
+    "Data": {
+        "datasets": [{
+          "label": "Devis",
+          "data": [{
+            "x": 89000,
+            "y": 8000,
+            "r": 15,
+            "label":"Devis1"
+          },
+          {
+            "x": 8000,
+            "y": 8200,
+            "r": 20,
+            "label":"Devis2"
+          },
+          {
+            "x": 30000,
+            "y": 4000,
+            "r": 5,
+            "label":"Devis3"
+          },
+          {
+            "x": 10000,
+            "y": 2000,
+            "r": 10,
+            "label":"Devis4"
+          },
+          {
+            "x": 35000,
+            "y": 5000,
+            "r": 40,
+            "label":"Devis5"
+          }
+
+
+
+        ]
+      }]
+    },
+  
+    "DataChartType": "bubble",
+    "NumericalValue1": "Sous total",
+    "NumericalValue2": "Remise", 
+    "NumericalValue3" : "%TVA"
+  
+  }
