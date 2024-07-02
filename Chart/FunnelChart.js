@@ -12,7 +12,6 @@ export default class FunnelChart extends BaseChart {
 
     getTitle(){
         return (this.yAxisLabel+' par '+this.xAxisLabel); 
-
     }
 
     setConfig(){
@@ -24,7 +23,6 @@ export default class FunnelChart extends BaseChart {
         let plugins=super.getPlugins(); 
         console.log(plugins); 
         plugins.datalabels ={formatter:function(value, context) {
-            // Return the value as is, without percentage
             return value;
         }}
         return plugins; 

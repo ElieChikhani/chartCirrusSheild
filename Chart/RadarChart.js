@@ -13,7 +13,7 @@ export default class RadarChart extends BaseChart {
     isGrouped(){
         return false; 
     }
-    
+
     mapData(){
         let data = this.jsonData;
         return data.Data; 
@@ -24,9 +24,13 @@ export default class RadarChart extends BaseChart {
         x:{
           display:false
           },
-          y:{
+        y:{
             display : false
           },
+
+        r:{
+            beginAtZero:true
+        }
       }
     }
 

@@ -61,6 +61,7 @@
     "DataChartType": "bubble",
     "NumericalValue1": "Sous total",
     "NumericalValue2": "Remise", 
-    "NumericalValue3" : "%TVA"
+    "NumericalValue3" : "%TVA",
+    "GroupedBy" : "Client"
   
   }

@@ -46,8 +46,9 @@ async function createChart(url){
         (document.getElementById('barOptions')).style.display='inline'; 
         (document.getElementById('vertical')).checked=true; 
         document.getElementById('stackOption').style.display=chart.grouped?'inline':'none'; 
+        (document.getElementById('stack')).checked=true; 
         chart.drawChart(); 
-        document.getElementById('scaleOption').style.display='block';
+        document.getElementById('scaleOptions').style.display='block';
       break;
 
       case 'PieChart' :
@@ -86,7 +87,7 @@ async function createChart(url){
           chart = new GaugeChart(newCanvas,fetchedData,i);
           chart.drawChart(); 
         })
-        document.getElementById('scaleOption').style.display = 'none'; 
+        document.getElementById('scaleOptions').style.display = 'none'; 
       break;
       
       case 'radar' :
@@ -96,10 +97,10 @@ async function createChart(url){
 
       case 'bubble' :
         chart = new BubbleChart(clx, fetchedData);
-        chart.drawChart(); 
-        document.getElementById('scaleOption').style.display='block';
+        chart.drawChart();
+        document.getElementById('scaleOptions').style.display='block';
         document.getElementById('secondScale').style.display='inline';
-        document.getElementById('datalabelsOption').style.display='inline';
+        document.getElementById('datalabelsOptions').style.display='block';
       break;  
 
       case 'map' :
@@ -110,6 +111,7 @@ async function createChart(url){
 
         chart = new MapChart(clx,fetchedData,countries);
         chart.drawChart(); 
+        document.getElementById('mapOptions').style.display = 'inline'
       break;  
 
       case 'heat' : 
@@ -129,6 +131,8 @@ async function createChart(url){
 /**
  * Event listeners : 
  */
+
+
 document.getElementById('vertical').addEventListener('change', function(){
     document.getElementById('horizontal').checked=false; 
     chart.updateIndexAxis('x'); 
@@ -141,11 +145,7 @@ document.getElementById('horizontal').addEventListener('change', function(){
   }); 
   
 document.getElementById('stack').addEventListener('change',function(){
-    if(this.checked){
-      chart.stack(); 
-    }else{
-      chart.unstack(); 
-    }
+    chart.updateStackStatus()
   })
 
 document.getElementById('scale').addEventListener('change',function(){
@@ -161,7 +161,11 @@ document.getElementById('secondScale').addEventListener('change',function(){
 })
 
 document.getElementById('showDatalable').addEventListener('change',function(){
-  chart.updateDatalabelView(this.checked); 
+  chart.updateDatalabelView(); 
+})
+
+document.getElementById('showGraticules').addEventListener('change',function(){
+  chart.updateGraticuleView(); 
 })
 
 

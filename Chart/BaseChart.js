@@ -3,7 +3,6 @@ export default class BaseChart {
     config
     chart 
     jsonData
-    grouped 
     groupLabel
     xAxisLabel
     yAxisLabel
@@ -11,17 +10,22 @@ export default class BaseChart {
     
 
     constructor(clx,fetchedData){
-        this.jsonData=fetchedData; 
-        this.grouped=this.isGrouped(); 
+        this.jsonData=fetchedData;
         this.clx = clx;
         this.setXAxisLabel();
         this.setYAxisLabel();
         this.setGroupLabel();
+        this.grouped=this.isGrouped();  
         this.setConfig();
     }
 
+
+    /**
+     * Getters and setters for all chart attributes : 
+     */
+
     isGrouped(){
-        return this.jsonData.Data[0].Name.includes('-')
+      return this.groupLabel ? true : false; //group label is a feild added to the JSONData  
     } 
 
     getType(){
@@ -91,9 +95,9 @@ export default class BaseChart {
               },
               align: 'center', 
               justify:'end'
-        }
+        },
     }
-  }
+    }
 
     getScales(){
         return {
@@ -114,6 +118,7 @@ export default class BaseChart {
           }
     }
 
+    //the implementation of mapData (and all its overides) should be modidied when the JSONData is in correct format 
     mapData(){ 
         return {
             labels: this.jsonData.Data.map(item => item.Name),
@@ -125,32 +130,15 @@ export default class BaseChart {
 
     getLayout(){
         return {
-
+          //no implmentation needed at this phase. 
         }
     }
 
-    getColorData(coloredData){
-        let grouped=this.grouped; 
-        let colorData=[]; 
-        if(!this.jsonData.Data[0].ChartJS_Color){
-          return colorData;  
-        }else{
-        colorData.length=coloredData.length; 
-        this.jsonData.Data.forEach(function(item){
-          if(!colorData.includes(item.ChartJS_Color)){
-              if(grouped){
-              colorData[coloredData.indexOf(item.Name.substring(0,item.Name.indexOf('-')))]=item.ChartJS_Color
-              }else{
-                colorData[coloredData.indexOf(item.Name)]=item.ChartJS_Color
-              }
-          }
-        })
-        console.log(colorData); 
-        return colorData; 
-        }
-        
-      
-    }
+
+    /**
+     * Actions performed on all type of charts : 
+     */
+
 
     drawChart(){ 
         this.chart = new Chart(this.clx,this.config)
@@ -167,8 +155,7 @@ export default class BaseChart {
     updateIndexAxis(axis) {
       if (this.chart) {
         this.chart.config.options.indexAxis=axis; 
-    
-        //the x and y scales must be switched. 
+   
         let tempScales = this.chart.config.options.scales.x; 
         this.chart.config.options.scales.x=this.chart.config.options.scales.y; 
         this.chart.config.options.scales.y=tempScales; 
@@ -189,7 +176,14 @@ export default class BaseChart {
       }
     }
 
-    //used for grouping :
+    resize(){
+      this.chart.resize(); 
+    }
+
+
+    /**
+     * additional JSONData manipulation (not needed when JSONData is in correct format)
+     */
 
     getXElements(){ 
         let xData=[]; 
@@ -238,5 +232,29 @@ export default class BaseChart {
         return yData; 
       
       }
+
+      
+    getColorData(coloredData){
+      let grouped=this.grouped; 
+      let colorData=[]; 
+      if(!this.jsonData.Data[0].ChartJS_Color){
+        return colorData;  
+      }else{
+      colorData.length=coloredData.length; 
+      this.jsonData.Data.forEach(function(item){
+        if(!colorData.includes(item.ChartJS_Color)){
+            if(grouped){
+            colorData[coloredData.indexOf(item.Name.substring(0,item.Name.indexOf('-')))]=item.ChartJS_Color
+            }else{
+              colorData[coloredData.indexOf(item.Name)]=item.ChartJS_Color
+            }
+        }
+      })
+      console.log(colorData); 
+      return colorData; 
+      }
+      
+    
+  }
     
 }

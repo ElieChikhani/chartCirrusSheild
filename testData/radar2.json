@@ -1,23 +1,23 @@
 {
     "Data": {
         "labels": [
-            "Nb d'employee",
-            "Nb de departement",
-            "Nb de directeur"
+            "Cirrus Sheild",
+            "Midas",
+            "ALFI",
+            "Anphibien"
           ],
 
           "datasets": [{
-            "label": "Cirrus sheild",
-            "data": [65, 59, 90],
+            "label": "Nb d'employee",
+            "data": [95, 80, 90,100],
             "fill": true
           },
 
           {
-            "label": "Midas",
-            "data": [10, 8, 2],
+            "label": "Nb de departement",
+            "data": [10, 8, 5,10],
             "fill": true
           }
-
 
         
         ]

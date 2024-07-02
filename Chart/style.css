@@ -21,16 +21,13 @@ body {
     justify-content:center; 
     width:70%;  
     padding: 20px;
-    height: 70%; 
+    margin:5%;
+    height: 75%; 
     background: white; 
     border-radius: 8px; 
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    flex-wrap:wrap; 
+    flex-wrap:wrap;
     overflow:auto; 
-}
-
-#newChart {
-    display:block;
 }
 
 #scaleOption{
@@ -45,33 +42,8 @@ body {
     overflow:visible !important; 
 }
 
-#userSelection {
-    display:flex; 
-    flex-wrap:wrap; 
-    margin-top:3%;
-}
 
-.userChoice{
-    flex:1 1 50%; 
-    margin:0px; 
-}
 
-.userChoice{
-    flex:1 1 50%; 
-    margin:0px; 
-}
 
-#reportDemo {
-    margin-top:100px; 
-    width:100%; 
-}
 
-.section {
-    border-style:solid;
-    margin:5px; 
-    transition: background-color 0.5s ease; /* Smooth transition */
-}
 
-table {
-    width:100%; 
-}

@@ -16,17 +16,19 @@ export default class BarChart extends BaseChart {
 
     }
 
-    stack(){
-        this.chart.config.options.scales.x.stacked=true; 
-        this.chart.config.options.scales.y.stacked=true;
+    getScales(){
+        let scales=super.getScales();
+        scales.x.stacked=true;
+        scales.y.stacked=true;
+        return scales; 
+    }
+
+    updateStackStatus(){
+        this.chart.config.options.scales.x.stacked=!this.chart.config.options.scales.x.stacked; 
+        this.chart.config.options.scales.y.stacked=!this.chart.config.options.scales.y.stacked;
         this.update(); 
     }
 
-    unstack(){
-        this.chart.config.options.scales.x.stacked=false;
-        this.chart.config.options.scales.y.stacked=false;
-        this.update(); 
-    }
 
     mapData(){
         let data;
@@ -42,6 +44,11 @@ export default class BarChart extends BaseChart {
         return data; 
 
     }
+
+    
+    /**
+     * additional JSONData manipulation (not needed when JSONData is in correct format)
+     */
 
     getGroupedData(){ 
     let dataLabels=this.getGroupedXValue(); 

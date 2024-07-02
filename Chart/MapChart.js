@@ -51,8 +51,8 @@ export default class MapChart extends BaseChart {
     
     getOptions(){
         let options=super.getOptions(); 
-        //options.showOutline=true; 
-        //options.showGraticule=true; 
+        options.showOutline=false; 
+        options.showGraticule=false; 
         return options; 
 
     }
@@ -67,7 +67,6 @@ export default class MapChart extends BaseChart {
 
               color :  {
                 axis: 'x',
-                quantize: 5,
                 legend: {
                   position: 'bottom-right',
                   align: 'right',
@@ -75,11 +74,10 @@ export default class MapChart extends BaseChart {
 
                 title : {
                     display : true, 
+                    anchor : 'end', 
                     text : barLabel,
                     font: {
-                        size: 10,  
-                        family: 'Arial',  
-                        style: 'bold',  
+                        size: 11,  
                     },
                     color:'#001CA3 '
                 }
@@ -90,6 +88,12 @@ export default class MapChart extends BaseChart {
 
     isGrouped(){
         return false; 
+    }
+
+    updateGraticuleView(){
+        this.chart.config.options.showOutline = ! this.chart.config.options.showOutline;
+        this.chart.config.options.showGraticule = ! this.chart.config.options.showGraticule;
+        this.chart.update(); 
     }
 
    

@@ -37,7 +37,7 @@
     "DataChartXFieldLabel": "Date de creation",
     "DataChartYFeildLabel": "Nb. de facture" ,
     "DataChartYFeildLabel2":"Nb de devis",
-    "Type1":"bar",
-    "Type2":"line"
+    "Type1":"line",
+    "Type2":"bar"
 
   }

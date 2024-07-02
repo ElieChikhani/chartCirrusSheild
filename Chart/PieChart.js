@@ -17,11 +17,10 @@ export default class PieChart extends BaseChart {
         return ('Repartition du '+this.yAxisLabel+' par '+this.xAxisLabel+groupement); 
     }
 
+    //these plugins are external plugins, and not included in the plugin within the options 
     getPluginsExtention(){
 
       let plugins = []; 
-
-         plugins.push(this.getLegendMargin());
          plugins.push(ChartDataLabels); //from the extension
          plugins.push(this.getDatalabels()); 
          
@@ -196,7 +195,7 @@ export default class PieChart extends BaseChart {
           ctx.fillText(dataset.label, endX + 5, endY); // Position the label slightly to the right of the line end
           ctx.restore();
       });
-  }
+    }
 
     getGroupedData(){
           let dataLabels=this.getXElements(); 
@@ -229,18 +228,6 @@ export default class PieChart extends BaseChart {
         
     }
 
-    getLayout(){
-    return {
-      
-        padding: {
-          left: 150,
-          right: 150,
-          top: 0,
-          bottom: 50
-      }
-  }
-    }
-
     getScales(){
         return {
             x:{
@@ -253,24 +240,6 @@ export default class PieChart extends BaseChart {
         }
     }
   
-    //too add space between labels and chart
-    getLegendMargin(){
-      return {
-      id:'legendMargin',
-      afterInit(chart,args,plugins) {
-        let originalFit = chart.legend.fit; 
-        chart.legend.fit = function fit() {
-          if(originalFit){
-            originalFit.call(this)
-          }
-
-          return this.height += 50
-        }
-      }
-    }
-
-    }
-
     getPercentage(value,context){
       let dataset = context.chart.data.datasets[context.datasetIndex];
       let meta = context.chart.getDatasetMeta(context.datasetIndex);

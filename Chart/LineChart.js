@@ -53,6 +53,10 @@ export default class LineChart extends BaseChart{
         return plugins; 
     }
 
+    /**
+     * additional JSONData manipulation (not needed when JSONData is in correct format)
+     */
+
     getGroupedData(){
         
           let dataLabels=this.getXElements(); 

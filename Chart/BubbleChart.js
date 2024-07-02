@@ -14,7 +14,7 @@ export default class BubbleChart extends BaseChart {
     }
 
     isGrouped(){
-        return this.jsonData.GroupedBy ? true : false; 
+        return this.groupLabel ? true : false; 
     }
 
     getScales(){
@@ -58,15 +58,17 @@ export default class BubbleChart extends BaseChart {
         },
 
         legend : {
-            display:true
+            display:this.grouped
         }
     }
 
     }
 
-    updateDatalabelView(show){ 
-        this.chart.config.options.plugins.datalabels.display=show
+    updateDatalabelView(){ 
+        this.chart.config.options.plugins.datalabels.display=!this.chart.config.options.plugins.datalabels.display; 
         this.update(); 
     }
+
+    
 
 }
