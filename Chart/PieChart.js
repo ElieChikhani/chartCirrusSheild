@@ -2,8 +2,6 @@ import BaseChart from './BaseChart.js';
 
 export default class PieChart extends BaseChart {
 
-
-
     constructor(clx,fetchedData){
         super(clx,fetchedData);
     }
@@ -13,10 +11,10 @@ export default class PieChart extends BaseChart {
     }
 
     getTitle(){
-        let groupement=this.grouped?' groupe par '+this.groupLabel:'';
-        return ('Repartition du '+this.yAxisLabel+' par '+this.xAxisLabel+groupement); 
+      let groupement=this.grouped?' groupé par '+this.groupLabel:'';
+      return ('Repartition du '+this.yAxisLabel+' par '+this.xAxisLabel+groupement); 
     }
-
+    
     //these plugins are external plugins, and not included in the plugin within the options 
     getPluginsExtention(){
 
@@ -30,6 +28,7 @@ export default class PieChart extends BaseChart {
             id: 'outerLabel',
             afterDraw: (chart) => this.drawOuterLabels(chart) //after render : only after the first drawing not after any updates
          })
+         plugins.push(this.getLegendMargin());
        }
     
       return plugins; 
@@ -39,8 +38,25 @@ export default class PieChart extends BaseChart {
     getDatalabels() {
       return {
         formatter: (value, context) => {
-         let percentage = this.getPercentage(value,context); 
-          return ((percentage>7)? value + '\n' + percentage+' % ' : '');
+         let total = this.getTotal(context); 
+         
+         if(total===null){
+          return null; 
+         }
+
+         let percentage = ((value / total )* 100 ).toFixed(1);
+
+         //check if the label can fit in the portion
+         let sliceAngle = (value / total) * 360;
+         let minAngleForLabel = this.grouped ? 38 : 35; 
+         let chartArea = context.chart.chartArea;
+         let radius = (Math.min(chartArea.right - chartArea.left, chartArea.bottom - chartArea.top) / 2);
+         let thickness = radius / context.dataset.data.length;
+
+
+         console.log(thickness); 
+
+         return this.displayDatalable(sliceAngle,thickness) ? value + '\n' + percentage+'%' : ' '; 
         },
 
         color: (context) => {
@@ -51,13 +67,23 @@ export default class PieChart extends BaseChart {
         },
         font: {
           weight: 'bold',
-          size: 12,
+          size: 11,
           family: 'Arial'
         },
         anchor: 'center',
         align: 'center',
-        offset: 10,
+        offset: 20,
       };
+    }
+
+    //this method returns true if the datalble fits in the portion and false otherwise
+    displayDatalable(angle,thickness){
+      if(this.grouped){
+        return (angle >= 38 && thickness >=40)
+      }else {
+        return (angle >= 20)
+      }
+
     }
 
     //for colors 
@@ -152,7 +178,7 @@ export default class PieChart extends BaseChart {
       let fixedAngle = Math.PI / 4; // Fixed angle (45 degrees)
   
       // Fixed end point for the horizontal lines
-      const fixedEndX = this.chartArea.right + horizontalOffset;
+      let fixedEndX = this.chartArea.right + horizontalOffset;
   
       datasets.forEach((dataset, i) => {
           const meta = chart.getDatasetMeta(i);
@@ -171,7 +197,7 @@ export default class PieChart extends BaseChart {
           let angledEndY = startY - angleLength * Math.sin(fixedAngle);
   
           // Calculate the start position of the horizontal line
-          let endX = fixedEndX;
+          let endX = fixedEndX - 200;
           let endY = angledEndY;
   
           // Draw the angled line segment
@@ -239,8 +265,8 @@ export default class PieChart extends BaseChart {
             }
         }
     }
-  
-    getPercentage(value,context){
+    //this function returns the total of the values of non hidden elements in the chart. 
+    getTotal(context){
       let dataset = context.chart.data.datasets[context.datasetIndex];
       let meta = context.chart.getDatasetMeta(context.datasetIndex);
       let element = meta.data[context.dataIndex];
@@ -252,8 +278,8 @@ export default class PieChart extends BaseChart {
       let total = dataset.data.reduce((sum, val, i) => {
         return meta.data[i].hidden ? sum : sum + val;
       }, 0);
-      
-      return ((value / total) * 100).toFixed(1);
+
+      return total; 
     }
 
     getTooltip(){
@@ -262,11 +288,30 @@ export default class PieChart extends BaseChart {
         callbacks: {
           label: function(tooltipItem) {
             let value = tooltipItem.raw;
-            let percentage = that.getPercentage(value, tooltipItem);
+            let total = that.getTotal(tooltipItem)
+            let percentage = (value/total * 100).toFixed(1);
             return `${value} (${percentage}%)`;
         }
         }
       }
     }
+
+    getLegendMargin(){
+      return {
+      id:'legendMargin',
+      afterInit(chart,args,plugins) {
+        let originalFit = chart.legend.fit; 
+        chart.legend.fit = function fit() {
+          if(originalFit){
+            originalFit.call(this)
+          }
+
+          return this.height += 25
+        }
+      }
+    }
+
+    }
+
 
 }
