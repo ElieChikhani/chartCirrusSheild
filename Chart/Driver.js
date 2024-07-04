@@ -17,7 +17,7 @@ async function fetchData(url) {
     return response.json();
 }
 
-let testUrl='../testData/'+'grouped3.json'; 
+let testUrl='../testData/'+'heat.json'; 
 createChart(testUrl); 
 
 

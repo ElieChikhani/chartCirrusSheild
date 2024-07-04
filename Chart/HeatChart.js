@@ -1,3 +1,4 @@
+import DrawingService from '../Services/DrawingService.js';
 import BaseChart from './BaseChart.js'; 
 
 export default class HeatChart extends BaseChart {
@@ -9,6 +10,10 @@ export default class HeatChart extends BaseChart {
 
     getType(){
         return 'matrix';
+    }
+
+    getTitle(){
+        return this.jsonData.valueLabel+' par '+this.jsonData.rowLabel+' et '+this.jsonData.columnLabel; 
     }
 
     isGrouped(){
@@ -115,8 +120,8 @@ export default class HeatChart extends BaseChart {
 
     getPlugins(){
         let that=this;
-        return {
-            tooltip : {
+        let plugins=super.getPlugins(); 
+        plugins.tooltip = {
                 callbacks: {
                     label: function(context) {
                         return context.raw.v;
@@ -126,14 +131,9 @@ export default class HeatChart extends BaseChart {
                         return that.jsonData.valueLabel; 
                     }
                 }
-            },
+        };
 
-            legend : {
-
-                display : false,
-
-            }
-        }
+        return plugins;    
     }
 
     getColor(value,min,max) {
@@ -146,12 +146,12 @@ export default class HeatChart extends BaseChart {
     return {
         id: 'colorBarPlugin',
         afterDraw: (chart) => {
-        const {ctx, chartArea} = chart;
-        const barWidth = 10;
-        const barHeight = (chartArea.bottom - chartArea.top) * 0.25; // 25% of the chart height
-        const margin = 20; // Define the margin between the chart and the color bar
+        let {ctx, chartArea} = chart;
+        let barWidth = 10;
+        let barHeight = (chartArea.bottom - chartArea.top) * 0.25; // 25% of the chart height
+        let margin = 20; // Define the margin between the chart and the color bar
 
-        const gradient = ctx.createLinearGradient(0, chartArea.bottom - barHeight, 0, chartArea.bottom);
+        let gradient = ctx.createLinearGradient(0, chartArea.bottom - barHeight, 0, chartArea.bottom);
         gradient.addColorStop(0, 'rgba(0, 0, 255, 1)');
         gradient.addColorStop(1, 'rgba(0, 0, 255, 0)');
 
@@ -172,32 +172,24 @@ export default class HeatChart extends BaseChart {
         let topValue = this.maxValue;
         let bottomValue = this.minValue;
         let centerValue = Math.floor((topValue - bottomValue)/2);
-        let title=this.jsonData.valueLabel; 
-
-        ctx.fillStyle = '#000';
-        ctx.textAlign = 'left';
-        ctx.textBaseline = 'middle';
-        ctx.font = '12px Arial';
+        let title=this.jsonData.valueLabel;
 
         // Top value
-        ctx.fillText(topValue, chartArea.right + margin + barWidth + 5, chartArea.bottom - barHeight);
+        DrawingService.fillText(ctx,'black','Arial 12px','Left',topValue, chartArea.right + margin + barWidth + 5, chartArea.bottom - barHeight);
 
         // Center value
-        ctx.fillText(centerValue, chartArea.right + margin + barWidth + 5, chartArea.bottom - barHeight / 2);
+        DrawingService.fillText(ctx,'black','Arial 12px','Left',centerValue, chartArea.right + margin + barWidth + 5, chartArea.bottom - barHeight / 2);
 
         // Bottom value
-        ctx.fillText(bottomValue, chartArea.right + margin + barWidth + 5, chartArea.bottom);
+        DrawingService.fillText(ctx,'black','Arial 12px','Left',bottomValue, chartArea.right + margin + barWidth + 5, chartArea.bottom);
         
         // Vertical title
         ctx.save();
-        ctx.fillStyle = 'blue';
         ctx.translate(chartArea.right + margin + barWidth + 35, chartArea.bottom - barHeight / 2);
         ctx.rotate(Math.PI / 2);
-        ctx.textAlign = 'center';
-        ctx.fillText(title, 0, 0);
-        ctx.restore();
+        DrawingService.fillText(ctx,'blue','Arial 12px','center',title, 0, 0);
+        ctx.restore(); 
 
-        ctx.restore();
     }
 
     

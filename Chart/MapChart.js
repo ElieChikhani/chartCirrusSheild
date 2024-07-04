@@ -97,6 +97,4 @@ export default class MapChart extends BaseChart {
     }
 
    
-    
-
 }

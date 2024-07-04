@@ -1,4 +1,6 @@
 import BaseChart from './BaseChart.js'; 
+import ColorUtils from '../Services/ColorService.js';
+import DrawingService from '../Services/DrawingService.js';
 
 export default class PieChart extends BaseChart {
 
@@ -37,9 +39,22 @@ export default class PieChart extends BaseChart {
     
     getDatalabels() {
       return {
-        formatter: (value, context) => {
-         let total = this.getTotal(context); 
-         
+        formatter: (value,context) => this.generateDatalabel(value,context),
+
+        color: (context) =>  this.generateDatalableColor(context),
+        font: {
+          weight: 'bold',
+          size: 11,
+          family: 'Arial'
+        },
+        anchor: 'center',
+        align: 'center',
+        offset: 20,
+      };
+    }
+
+    generateDatalabel(value,context){
+      let total = this.getTotal(context); 
          if(total===null){
           return null; 
          }
@@ -53,45 +68,25 @@ export default class PieChart extends BaseChart {
          let radius = (Math.min(chartArea.right - chartArea.left, chartArea.bottom - chartArea.top) / 2);
          let thickness = radius / context.dataset.data.length;
 
+         return this.canDisplayDatalable(sliceAngle,thickness) ? value + '\n' + percentage+'%' : ' '; 
+    }
 
-         console.log(thickness); 
+    generateDatalableColor(context){
+      let dataset = context.chart.data.datasets[context.datasetIndex];
+      let bgColor = dataset.backgroundColor[context.dataIndex]; // Use the base background color
+      let color = ColorUtils.isLightColor(bgColor) ? 'black' : 'white'; // Determine color based on initial background color
+      return color;
 
-         return this.displayDatalable(sliceAngle,thickness) ? value + '\n' + percentage+'%' : ' '; 
-        },
-
-        color: (context) => {
-          let dataset = context.chart.data.datasets[context.datasetIndex];
-          let bgColor = dataset.backgroundColor[context.dataIndex]; // Use the base background color
-          let color = this.isLight(bgColor) ? 'black' : 'white'; // Determine color based on initial background color
-          return color;
-        },
-        font: {
-          weight: 'bold',
-          size: 11,
-          family: 'Arial'
-        },
-        anchor: 'center',
-        align: 'center',
-        offset: 20,
-      };
     }
 
     //this method returns true if the datalble fits in the portion and false otherwise
-    displayDatalable(angle,thickness){
+    canDisplayDatalable(angle,thickness){
       if(this.grouped){
-        return (angle >= 38 && thickness >=40)
+        return (angle >= 38 && thickness >=60)
       }else {
         return (angle >= 20)
       }
 
-    }
-
-    //for colors 
-    isLight(color) {
-      // Parse the color to RGB and calculate luminance
-      const rgb = color.match(/\d+/g); // Assuming input like "rgb(255, 255, 255)"
-      const luminance = 0.299 * rgb[0] + 0.587 * rgb[1] + 0.114 * rgb[2];
-      return luminance > 186; // A commonly used threshold for contrast
     }
 
     getPlugins(){
@@ -161,14 +156,14 @@ export default class PieChart extends BaseChart {
       let ctx = chart.ctx;
       let datasets = chart.data.datasets;
   
-      this.chartArea = chart.chartArea;
-      this.centerX = (this.chartArea.left + this.chartArea.right) / 2;
-      this.centerY = (this.chartArea.top + this.chartArea.bottom) / 2;
+      let chartArea = chart.chartArea;
+      let centerX = (chartArea.left + chartArea.right) / 2;
+      let centerY = (chartArea.top + chartArea.bottom) / 2;
   
       // Maximum radius
       this.maxRadius = Math.max(...datasets.map(dataset => {
-          const meta = chart.getDatasetMeta(datasets.indexOf(dataset));
-          const firstNonHiddenArc = meta.data.find(arc => !arc.hidden);
+          let meta = chart.getDatasetMeta(datasets.indexOf(dataset));
+          let firstNonHiddenArc = meta.data.find(arc => !arc.hidden);
           return firstNonHiddenArc ? firstNonHiddenArc.outerRadius : 0;
       }));
   
@@ -178,7 +173,7 @@ export default class PieChart extends BaseChart {
       let fixedAngle = Math.PI / 4; // Fixed angle (45 degrees)
   
       // Fixed end point for the horizontal lines
-      let fixedEndX = this.chartArea.right + horizontalOffset;
+      let fixedEndX = chartArea.right + horizontalOffset;
   
       datasets.forEach((dataset, i) => {
           const meta = chart.getDatasetMeta(i);
@@ -189,8 +184,8 @@ export default class PieChart extends BaseChart {
           let radius = firstNonHiddenArc.outerRadius; // Outer radius of the arc
   
           // Calculate start position at the top edge of the circle
-          let startX = this.centerX;
-          let startY = this.centerY - radius;
+          let startX = centerX;
+          let startY = centerY - radius;
   
           // Calculate the endpoint of the angled line segment
           let angledEndX = startX + angleLength * Math.cos(fixedAngle);
@@ -199,72 +194,13 @@ export default class PieChart extends BaseChart {
           // Calculate the start position of the horizontal line
           let endX = fixedEndX - 200;
           let endY = angledEndY;
-  
-          // Draw the angled line segment
-          ctx.save();
-          ctx.strokeStyle = 'black';
-          ctx.beginPath();
-          ctx.moveTo(startX, startY);
-          ctx.lineTo(angledEndX, angledEndY);
-          ctx.stroke();
-  
-          // Draw the horizontal line segment
-          ctx.beginPath();
-          ctx.moveTo(angledEndX, angledEndY);
-          ctx.lineTo(endX, endY);
-          ctx.stroke();
-  
-          // Draw the label at the end of the horizontal line
-          ctx.fillStyle = 'black';
-          ctx.font = '12px Arial';
-          ctx.textAlign = 'left';
-          ctx.fillText(dataset.label, endX + 5, endY); // Position the label slightly to the right of the line end
-          ctx.restore();
+
+          DrawingService.drawLine(ctx,'black',startX,startY,angledEndX,angledEndY);
+          DrawingService.drawLine(ctx,'black',angledEndX,angledEndY,endX,endY); 
+          DrawingService.fillText(ctx,'black','12px Arial','left',dataset.label,endX+5,endY)
       });
     }
 
-    getGroupedData(){
-          let dataLabels=this.getXElements(); 
-          let datasetsLabels=this.getGroupedXValue();
-          let colorData=this.getColorData(dataLabels);  
-          let yData = this.getGroupedYValue(datasetsLabels); 
-    
-        
-        let datasetArray=[]; 
-        
-        for(let i=0; i<yData.length; i++){
-        
-          datasetArray.push(
-            {
-              label : datasetsLabels[i],
-              data: yData[i],
-              backgroundColor : colorData
-            }
-          )
-        
-        }
-        
-        return(
-          {
-            labels:dataLabels,
-            datasets:datasetArray
-            
-          }
-        )
-        
-    }
-
-    getScales(){
-        return {
-            x:{
-                display:false
-            },
-
-            y:{
-                display:false
-            }
-        }
-    }
     //this function returns the total of the values of non hidden elements in the chart. 
     getTotal(context){
       let dataset = context.chart.data.datasets[context.datasetIndex];
@@ -282,6 +218,18 @@ export default class PieChart extends BaseChart {
       return total; 
     }
 
+    getScales(){
+        return {
+            x:{
+                display:false
+            },
+
+            y:{
+                display:false
+            }
+        }
+    }
+    
     getTooltip(){
       let that=this; 
       return {
@@ -312,6 +260,37 @@ export default class PieChart extends BaseChart {
     }
 
     }
+
+    getGroupedData(){
+      let dataLabels=this.getXElements(); 
+      let datasetsLabels=this.getGroupedXValue();
+      let colorData=this.getColorData(dataLabels);  
+      let yData = this.getGroupedYValue(datasetsLabels); 
+
+    
+    let datasetArray=[]; 
+    
+    for(let i=0; i<yData.length; i++){
+    
+      datasetArray.push(
+        {
+          label : datasetsLabels[i],
+          data: yData[i],
+          backgroundColor : colorData
+        }
+      )
+    
+    }
+    
+    return(
+      {
+        labels:dataLabels,
+        datasets:datasetArray
+        
+      }
+    )
+    
+}
 
 
 }
