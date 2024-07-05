@@ -1,4 +1,5 @@
 import BaseChart from './BaseChart.js'; 
+import ColorService from "../Services/ColorService.js"
 
 export default class LineChart extends BaseChart{
     yAxisLabel2;  
@@ -74,7 +75,7 @@ export default class LineChart extends BaseChart{
               label : datasetsLabels[i],
               data: yData[i],
               backgroundColor : colorData[i],
-              borderColor:colorData[i],
+              borderColor:ColorService.changeOpacity(colorData[i],0.7),
             }
           )
         

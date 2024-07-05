@@ -1,4 +1,5 @@
 import BaseChart from './BaseChart.js'; 
+import ColorService from "../Services/ColorService.js"
 
 export default class BarChart extends BaseChart {
 
@@ -29,7 +30,6 @@ export default class BarChart extends BaseChart {
         this.update(); 
     }
 
-
     mapData(){
         let data;
 
@@ -38,11 +38,21 @@ export default class BarChart extends BaseChart {
 
         }else{
             data=super.mapData(); 
-            data.datasets[0].backgroundColor = this.getColorData(data.labels); 
+            let colorData = this.getColorData(data.labels); 
+            data.datasets[0].borderWidth=1; 
+            data.datasets[0].borderColor=colorData; 
+            data.datasets[0].backgroundColor =colorData.map(color => ColorService.changeOpacity(color,0.5))
         }
 
         return data; 
 
+    }
+
+    getPlugins(){
+        let plugins=super.getPlugins();
+        plugins.legend.display=this.grouped; 
+
+        return plugins; 
     }
 
     
@@ -64,10 +74,13 @@ export default class BarChart extends BaseChart {
     {
     label : datasetsLabels[i],
     data: yData[i],
-    backgroundColor : colorData[i],
+    borderWidth:1,
+    borderColor:colorData[i],
+    backgroundColor : ColorService.changeOpacity(colorData[i],0.5),
     } )   
     } 
 
+    console.log(datasetArray[1].backgroundColor); 
     return(
         {
           labels:dataLabels,

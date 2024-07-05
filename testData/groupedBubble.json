@@ -1,7 +1,7 @@
 {
     "Data": {
         "datasets": [{
-          "label": "Client1",
+          "label": "Agriculture",
           "data": [{
             "x": 89000,
             "y": 8000,
@@ -35,33 +35,54 @@
 
 
 
-        ]
+        ],
+
+        "backgroundColor" : "rgb(255,0,0,0,0.5)"
       },
       {
-        "label": "Client2",
+        "label": "Education",
         "data": [{
           "x": 7000,
           "y": 7000,
           "r": 10,
-          "label":"Devis1"
+          "label":"Devis6"
         },
         {
           "x": 3000,
           "y": 4000,
           "r": 10,
-          "label":"Devis2"
+          "label":"Devis7"
         }
+      ],
 
+       "backgroundColor" : "rgb(0,255,0,0.5)"
+    },
+  
+    {
+      "label": "Technologie",
+      "data": [{
+        "x": 2000,
+        "y": 7000,
+        "r": 10,
+        "label":"Devis8"
+      },
+      {
+        "x": 3000,
+        "y": 8000,
+        "r": 7,
+        "label":"Devis9"
+      }
 
+    ],
 
-      ]
-    }]
+    "backgroundColor" : "rgb(0,0,255,0.5)"
+  }]
     },
   
     "DataChartType": "bubble",
     "NumericalValue1": "Sous total",
     "NumericalValue2": "Remise", 
     "NumericalValue3" : "%TVA",
-    "GroupedBy" : "Client"
+    "GroupedBy" : "Secteur d'activité"
   
   }

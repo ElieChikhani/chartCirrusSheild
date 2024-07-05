@@ -9,6 +9,11 @@ export default class BubbleChart extends BaseChart {
         return 'bubble';
     }
 
+    getTitle(){
+        let groupement = this.grouped ? ' groupé par '+this.jsonData.GroupedBy : ' ';
+        return this.xAxisLabel+', '+this.yAxisLabel+' et '+this.jsonData.NumericalValue3+groupement; 
+    }
+
     mapData() {
         return this.jsonData.Data; 
     }
@@ -23,7 +28,7 @@ export default class BubbleChart extends BaseChart {
               beginAtZero:true,
               title : {
                 display: true,
-                text: this.xAxisLabel + (this.grouped?' groupé par '+this.groupLabel : '')
+                text: this.xAxisLabel
               },
               },
               y:{
@@ -50,17 +55,18 @@ export default class BubbleChart extends BaseChart {
     }
 
     getPlugins(){
-        return {
-        datalabels : {
+        let plugins = super.getPlugins(); 
+        plugins.datalabels = {
             display:false,
             align:"end",
             anchor:"end",
-        },
+        }
 
-        legend : {
+        plugins.legend = {
             display:this.grouped
         }
-    }
+
+        return plugins; 
 
     }
 

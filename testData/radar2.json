@@ -24,8 +24,6 @@
 
     },
 
-    "DataChartType": "radar",
-    "DataChartXFieldLabel": "Secteur d'activité",
-    "DataChartYFeildLabel": "Montant total" 
+    "DataChartType": "radar"
 
   }

@@ -11,7 +11,7 @@ export default class MapChart extends BaseChart {
     }
 
     getTitle(){
-        return this.yAxisLabel+' mondialement'
+        return this.yAxisLabel+' par '+ this.xAxisLabel
     }
 
     getType(){

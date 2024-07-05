@@ -1,5 +1,5 @@
 import BaseChart from './BaseChart.js'; 
-import ColorUtils from '../Services/ColorService.js';
+import ColorService from '../Services/ColorService.js';
 import DrawingService from '../Services/DrawingService.js';
 
 export default class PieChart extends BaseChart {
@@ -44,7 +44,7 @@ export default class PieChart extends BaseChart {
         color: (context) =>  this.generateDatalableColor(context),
         font: {
           weight: 'bold',
-          size: 11,
+          size: 10,
           family: 'Arial'
         },
         anchor: 'center',
@@ -63,7 +63,6 @@ export default class PieChart extends BaseChart {
 
          //check if the label can fit in the portion
          let sliceAngle = (value / total) * 360;
-         let minAngleForLabel = this.grouped ? 38 : 35; 
          let chartArea = context.chart.chartArea;
          let radius = (Math.min(chartArea.right - chartArea.left, chartArea.bottom - chartArea.top) / 2);
          let thickness = radius / context.dataset.data.length;
@@ -74,15 +73,14 @@ export default class PieChart extends BaseChart {
     generateDatalableColor(context){
       let dataset = context.chart.data.datasets[context.datasetIndex];
       let bgColor = dataset.backgroundColor[context.dataIndex]; // Use the base background color
-      let color = ColorUtils.isLightColor(bgColor) ? 'black' : 'white'; // Determine color based on initial background color
+      let color = ColorService.isLightColor(bgColor) ? 'black' : 'white'; // Determine color based on initial background color
       return color;
-
     }
 
     //this method returns true if the datalble fits in the portion and false otherwise
     canDisplayDatalable(angle,thickness){
       if(this.grouped){
-        return (angle >= 38 && thickness >=60)
+        return (angle >= 38 && thickness >=50)
       }else {
         return (angle >= 20)
       }
@@ -290,7 +288,7 @@ export default class PieChart extends BaseChart {
       }
     )
     
-}
+    }
 
 
 }

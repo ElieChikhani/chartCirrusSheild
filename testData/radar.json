@@ -7,16 +7,27 @@
           ],
 
           "datasets": [{
-            "label": "Cirrus sheild",
+            "label": "Agriculture",
             "data": [65, 59, 90],
-            "fill": true
+            "fill": true,
+            "backgroundColor":"rgb(0,0,255,0.5)"
           },
 
           {
-            "label": "Midas",
+            "label": "Education",
             "data": [10, 8, 2],
-            "fill": true
+            "fill": true,
+            "backgroundColor":"rgb(255,0,0,0.5)"
+          },
+
+          {
+            "label": "Technologie",
+            "data": [20, 50, 30],
+            "fill": true,
+            "backgroundColor":"rgb(0,255,0,0.5)"
           }
+
+
 
 
         
@@ -24,8 +35,6 @@
 
     },
 
-    "DataChartType": "radar",
-    "DataChartXFieldLabel": "Secteur d'activité",
-    "DataChartYFeildLabel": "Montant total" 
+    "DataChartType": "radar"
 
   }

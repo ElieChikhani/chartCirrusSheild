@@ -52,12 +52,12 @@
         { "x": 10, "y": 5, "v": 138 }
     ],
 
-    "rows":["2015","2016","2017","2018","2019","2020","2021","2022","2023","2024"],
-    "columns":["France","Belgique","Liban","Pologne","Canada"],
+    "columns":["2015","2016","2017","2018","2019","2020","2021","2022","2023","2024"],
+    "rows":["France","Belgique","Liban","Pologne","Canada"],
    
     "DataChartType": "heat",
-    "rowLabel": "Date de creation",
-    "columnLabel": "Pays",
+    "rowLabel": "Pays",
+    "columnLabel": "Dates de creation",
     "valueLabel": "Nb de devis"
      
 

@@ -1,3 +1,5 @@
+
+
 export default class BaseChart {
     clx
     config
@@ -112,7 +114,7 @@ export default class BaseChart {
                 title: {
                   display: true,
                   text: this.yAxisLabel
-                },
+                }, 
       
               },
           }
@@ -180,11 +182,6 @@ export default class BaseChart {
       this.chart.resize(); 
     }
 
-
-    /**
-     * additional JSONData manipulation (not needed when JSONData is in correct format)
-     */
-
     getXElements(){ 
         let xData=[]; 
         this.jsonData.Data.forEach(function(item){ 
@@ -196,7 +193,7 @@ export default class BaseChart {
       }); 
       
       return xData; 
-      }
+    }
       
     getGroupedXValue(){ 
         let groupCategory=[]; 
@@ -209,7 +206,7 @@ export default class BaseChart {
       });
       
         return groupCategory; 
-      }
+    }
 
     getGroupedYValue(groupCategory){ 
         let numberOfCategories=groupCategory.length; 
@@ -231,9 +228,8 @@ export default class BaseChart {
       
         return yData; 
       
-      }
+    }
 
-      
     getColorData(coloredData){
       let grouped=this.grouped; 
       let colorData=[]; 
@@ -244,17 +240,15 @@ export default class BaseChart {
       this.jsonData.Data.forEach(function(item){
         if(!colorData.includes(item.ChartJS_Color)){
             if(grouped){
-            colorData[coloredData.indexOf(item.Name.substring(0,item.Name.indexOf('-')))]=item.ChartJS_Color
+            colorData[coloredData.indexOf(item.Name.substring(0,item.Name.indexOf('-')))]=item.ChartJS_Color;
             }else{
-              colorData[coloredData.indexOf(item.Name)]=item.ChartJS_Color
+            colorData[coloredData.indexOf(item.Name)]=item.ChartJS_Color; 
             }
         }
       })
-      console.log(colorData); 
+     
       return colorData; 
       }
-      
-    
-  }
-    
+    }
+
 }

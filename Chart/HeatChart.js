@@ -67,13 +67,13 @@ export default class HeatChart extends BaseChart {
     }
 
     getScales(){
-        let xLabels = this.jsonData.rows; 
-        let yLabels = this.jsonData.columns; 
+        let xLabels = this.jsonData.columns; 
+        let yLabels = this.jsonData.rows; 
         return {
             x:{
                 title:{
                 display:true,
-                text:this.jsonData.rowLabel,
+                text:this.jsonData.columnLabel,
                 },
                 position:'top',
                 ticks : {
@@ -92,7 +92,7 @@ export default class HeatChart extends BaseChart {
                 offset:true,
                 title:{
                     display:true,
-                    text:this.jsonData.columnLabel,
+                    text:this.jsonData.rowLabel,
                 },
                 ticks : {
                     stepSize:1,

@@ -12,11 +12,9 @@
         {"country":"Netherlands", "value":1},
         {"country":"Russia", "value":5}
         
-
-        
     ],
   
     "DataChartType": "map",
-    "DataChartXFieldLabel": "Countries",
+    "DataChartXFieldLabel": "Pays d'origine",
     "DataChartYFeildLabel": "Nb. de compte"
   }
