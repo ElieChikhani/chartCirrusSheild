@@ -144,10 +144,15 @@ export default class BaseChart {
 
     drawChart(){ 
         this.chart = new Chart(this.clx,this.config)
+        this.displayDynamicOptions(); 
     }
 
     destroyChart(){
       this.chart.destroy(); 
+    }
+
+    displayDynamicOptions(){
+      //implemented at later stages
     }
 
     update(){

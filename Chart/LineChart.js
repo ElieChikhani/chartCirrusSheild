@@ -54,6 +54,10 @@ export default class LineChart extends BaseChart{
         return plugins; 
     }
 
+    displayDynamicOptions(){
+      document.getElementById('scaleOptions').style.display='block';
+    }
+
     /**
      * additional JSONData manipulation (not needed when JSONData is in correct format)
      */
@@ -74,13 +78,13 @@ export default class LineChart extends BaseChart{
             {
               label : datasetsLabels[i],
               data: yData[i],
-              backgroundColor : colorData[i],
-              borderColor:ColorService.changeOpacity(colorData[i],0.7),
+              backgroundColor : ColorService.changeOpacity(colorData[i],0.5),
+              borderColor:colorData[i]
             }
           )
         
         }
-        
+
         return(
           {
             labels:dataLabels,

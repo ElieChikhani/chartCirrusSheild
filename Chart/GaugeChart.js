@@ -2,38 +2,27 @@ import DoughnutChart from './DoughnutChart.js';
 
 export default class GaugeChart extends DoughnutChart {
 
-    dataIndex; 
-
-    constructor(clx,fetchedData,dataIndex){
+    constructor(clx,fetchedData){
        super(clx,fetchedData)
-       this.dataIndex=dataIndex;
-       this. grouped = false;  
-       this.setConfig(); 
     }
 
     getTitle(){
-        if(this.dataIndex>=0) {
-            return this.jsonData.Data[this.dataIndex].Name; 
-        }
+        return this.jsonData.Name; 
     }
 
     mapData(){
-        if(this.dataIndex>=0) {
         let data = {}
         data.datasets=[
             {
-                data : this.jsonData.Data[this.dataIndex].Dataset,
-                backgroundColor : this.jsonData.Data[this.dataIndex].ChartJS_Color,
-                needleValue : this.jsonData.Data[this.dataIndex].Value,
+                data : this.jsonData.Dataset,
+                backgroundColor : this.jsonData.ChartJS_Color,
+                needleValue : this.jsonData.Value,
             }
         ]
         data.datasets[0].circumference=180; 
         data.datasets[0].rotation=270; 
         data.datasets[0].cutout='80%'; 
         return data; 
-      }else{
-        return super.mapData(); 
-      }
     }
 
     getLayout(){
@@ -117,8 +106,6 @@ export default class GaugeChart extends DoughnutChart {
     }
 
     getFlowMeter(){
-
-        let yAxisLabel = this.yAxisLabel; 
         return {
             id: 'gaugeFlowMeter',
             afterDatasetsDraw(chart, args, plugins){
@@ -133,11 +120,8 @@ export default class GaugeChart extends DoughnutChart {
                 ctx.textAlign = 'center';
                 ctx.fillStyle = 'black';
                 ctx.fillText(needleValue,xCenter, yCenter+35); 
-                ctx.fillText(yAxisLabel,xCenter, yCenter+55); 
 
             }
-
-
         }
 
     }

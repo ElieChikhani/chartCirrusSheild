@@ -37,7 +37,7 @@
 
         ],
 
-        "backgroundColor" : "rgb(255,0,0,0,0.5)"
+        "backgroundColor" : "rgb(255,0,0)"
       },
       {
         "label": "Education",
@@ -55,7 +55,7 @@
         }
       ],
 
-       "backgroundColor" : "rgb(0,255,0,0.5)"
+       "backgroundColor" : "rgb(0,255,0)"
     },
   
     {
@@ -75,7 +75,7 @@
 
     ],
 
-    "backgroundColor" : "rgb(0,0,255,0.5)"
+    "backgroundColor" : "rgb(0,0,255)"
   }]
     },
   

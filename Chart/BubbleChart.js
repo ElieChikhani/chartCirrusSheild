@@ -1,3 +1,4 @@
+import ColorService from '../Services/ColorService.js';
 import BaseChart from './BaseChart.js'; 
 
 export default class BubbleChart extends BaseChart {
@@ -15,7 +16,16 @@ export default class BubbleChart extends BaseChart {
     }
 
     mapData() {
-        return this.jsonData.Data; 
+        let data = this.jsonData.Data; 
+
+        data.datasets.forEach(function(item){
+            if(item.backgroundColor){
+                item.borderColor = item.backgroundColor; 
+                item.backgroundColor = ColorService.changeOpacity(item.backgroundColor,0.2)
+            }
+        })
+        return data; 
+
     }
 
     isGrouped(){
@@ -73,6 +83,12 @@ export default class BubbleChart extends BaseChart {
     updateDatalabelView(){ 
         this.chart.config.options.plugins.datalabels.display=!this.chart.config.options.plugins.datalabels.display; 
         this.update(); 
+    }
+
+    displayDynamicOptions(){
+        document.getElementById('scaleOptions').style.display='block';
+        document.getElementById('secondScale').style.display='inline';
+        document.getElementById('datalabelsOptions').style.display='block';
     }
 
     

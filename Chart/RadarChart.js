@@ -1,4 +1,5 @@
 import BaseChart from './BaseChart.js'; 
+import ColorService from '../Services/ColorService.js';
 
 export default class RadarChart extends BaseChart {
 
@@ -15,8 +16,15 @@ export default class RadarChart extends BaseChart {
     }
 
     mapData(){
-        let data = this.jsonData;
-        return data.Data; 
+        let data = this.jsonData.Data; 
+
+        data.datasets.forEach(function(item){
+            if(item.backgroundColor){
+                item.borderColor = item.backgroundColor; 
+                item.backgroundColor = ColorService.changeOpacity(item.backgroundColor,0.2)
+            }
+        })
+        return data; 
     }
 
     getScales(){

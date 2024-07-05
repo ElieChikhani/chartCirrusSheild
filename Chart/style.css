@@ -42,6 +42,14 @@ body {
     overflow:visible !important; 
 }
 
+h3 {
+    align-self : center; 
+    justify-self : center; 
+    width : 100%; 
+    text-align : center; 
+    color:grey; 
+}
+
 
 
 

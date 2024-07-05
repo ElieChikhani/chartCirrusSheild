@@ -4,7 +4,7 @@ import PieChart from './PieChart.js';
 import FunnelChart from './FunnelChart.js'; 
 import DoughnutChart from './DoughnutChart.js'; 
 import PolarAreaChart from './PolarAreaChart.js'; 
-import GaugeChart from './GaugeChart.js';  
+import GaugeChartList from './GaugeChartList.js';  
 import RadarChart from './RadarChart.js';  
 import BubbleChart from './BubbleChart.js';  
 import MapChart from './MapChart.js';  
@@ -17,7 +17,7 @@ async function fetchData(url) {
     return response.json();
 }
 
-let testUrl='../testData/'+'grouped4.json'; 
+let testUrl='../testData/'+'gauge.json'; 
 createChart(testUrl); 
 
 
@@ -43,12 +43,7 @@ async function createChart(url){
     switch(fetchedData.DataChartType){
       case 'VerticalBarChart' :
         chart = new BarChart(clx, fetchedData);
-        (document.getElementById('barOptions')).style.display='inline'; 
-        (document.getElementById('vertical')).checked=true; 
-        document.getElementById('stackOption').style.display=chart.grouped?'inline':'none'; 
-        (document.getElementById('stack')).checked=true; 
         chart.drawChart(); 
-        document.getElementById('scaleOptions').style.display='block';
       break;
 
       case 'PieChart' :
@@ -77,17 +72,8 @@ async function createChart(url){
       break; 
 
       case 'gauge' :
-      let container = document.getElementById('chartViewContainer');
-      container.style.display='flex';   
-
-        fetchedData.Data.forEach(function(item,i){
-          let newCanvas= document.createElement('canvas'); 
-          container.appendChild(newCanvas);
-          newCanvas.className='gaugeCanvas';  
-          chart = new GaugeChart(newCanvas,fetchedData,i);
-          chart.drawChart(); 
-        })
-        document.getElementById('scaleOptions').style.display = 'none'; 
+        chart=new GaugeChartList(fetchedData); 
+        chart.drawChart(); 
       break;
       
       case 'radar' :
@@ -98,9 +84,6 @@ async function createChart(url){
       case 'bubble' :
         chart = new BubbleChart(clx, fetchedData);
         chart.drawChart();
-        document.getElementById('scaleOptions').style.display='block';
-        document.getElementById('secondScale').style.display='inline';
-        document.getElementById('datalabelsOptions').style.display='block';
       break;  
 
       case 'map' :
@@ -128,10 +111,10 @@ async function createChart(url){
 }
 
 
+
 /**
  * Event listeners : 
  */
-
 
 document.getElementById('vertical').addEventListener('change', function(){
     document.getElementById('horizontal').checked=false; 

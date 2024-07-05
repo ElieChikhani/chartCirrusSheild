@@ -10,27 +10,22 @@
             "label": "Agriculture",
             "data": [65, 59, 90],
             "fill": true,
-            "backgroundColor":"rgb(0,0,255,0.5)"
+            "backgroundColor":"rgb(0,0,255)"
           },
 
           {
             "label": "Education",
             "data": [10, 8, 2],
             "fill": true,
-            "backgroundColor":"rgb(255,0,0,0.5)"
+            "backgroundColor":"rgb(255,0,0)"
           },
 
           {
             "label": "Technologie",
             "data": [20, 50, 30],
             "fill": true,
-            "backgroundColor":"rgb(0,255,0,0.5)"
+            "backgroundColor":"rgb(0,255,0)"
           }
-
-
-
-
-        
         ]
 
     },

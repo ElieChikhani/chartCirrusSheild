@@ -8,7 +8,6 @@ export default class ColorService {
     }
 
     static getRGBColor(color) {
-
       if(color){
       if (color.startsWith('rgb')) {
           return color;
@@ -30,10 +29,9 @@ export default class ColorService {
           let b = parseInt(hex.slice(4, 6), 16);
 
           return `rgb(${r}, ${g}, ${b})`;
-      }
-      
-
+      }else{
       throw new Error("Invalid color format");
+      }
     }
 
     }
@@ -46,7 +44,8 @@ export default class ColorService {
       }
 
       color = this.getRGBColor(color);
-      const rgbMatch = color.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+      let rgbMatch = color.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+      console.log(rgbMatch)
 
       if (rgbMatch) {
           let r = parseInt(rgbMatch[1], 10);

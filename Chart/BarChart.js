@@ -41,7 +41,7 @@ export default class BarChart extends BaseChart {
             let colorData = this.getColorData(data.labels); 
             data.datasets[0].borderWidth=1; 
             data.datasets[0].borderColor=colorData; 
-            data.datasets[0].backgroundColor =colorData.map(color => ColorService.changeOpacity(color,0.5))
+            data.datasets[0].backgroundColor =colorData.map(color => ColorService.changeOpacity(color,0.2))
         }
 
         return data; 
@@ -53,6 +53,14 @@ export default class BarChart extends BaseChart {
         plugins.legend.display=this.grouped; 
 
         return plugins; 
+    }
+
+    displayDynamicOptions(){
+        (document.getElementById('barOptions')).style.display='inline'; 
+        (document.getElementById('vertical')).checked=true; 
+        document.getElementById('stackOption').style.display=this.grouped?'inline':'none'; 
+        (document.getElementById('stack')).checked=true; 
+        document.getElementById('scaleOptions').style.display='block';
     }
 
     
@@ -76,7 +84,7 @@ export default class BarChart extends BaseChart {
     data: yData[i],
     borderWidth:1,
     borderColor:colorData[i],
-    backgroundColor : ColorService.changeOpacity(colorData[i],0.5),
+    backgroundColor : ColorService.changeOpacity(colorData[i],0.2),
     } )   
     } 
 
