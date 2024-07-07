@@ -6,15 +6,25 @@ export default class BubbleChart extends BaseChart {
         super(clx,fetchedData);
     }
 
+    /**
+     * @override
+     * @returns type : string
+     */
     getType(){
         return 'bubble';
     }
 
+    /**
+     * @override
+     */
     getTitle(){
         let groupement = this.grouped ? ' groupé par '+this.jsonData.GroupedBy : ' ';
         return this.xAxisLabel+', '+this.yAxisLabel+' et '+this.jsonData.NumericalValue3+groupement; 
     }
 
+    /**
+     * @override
+     */
     mapData() {
         let data = this.jsonData.Data; 
 
@@ -28,10 +38,16 @@ export default class BubbleChart extends BaseChart {
 
     }
 
+    /**
+     * @override
+     */
     isGrouped(){
         return this.groupLabel ? true : false; 
     }
 
+    /**
+     * @override
+     */
     getScales(){
         return {
             x:{
@@ -51,19 +67,31 @@ export default class BubbleChart extends BaseChart {
           }
     }
 
+    /**
+     * @override
+     */
     setXAxisLabel(){
         this.xAxisLabel=this.jsonData.NumericalValue1; 
     }
 
+    /**
+     * @override
+     */
     setYAxisLabel(){
         this.yAxisLabel=this.jsonData.NumericalValue2;
     }
 
+    /**
+     * @override
+     */
     setConfig(){
         super.setConfig(); 
         this.config.plugins=[ChartDataLabels]; 
     }
 
+    /**
+     * @override
+     */
     getPlugins(){
         let plugins = super.getPlugins(); 
         plugins.datalabels = {
@@ -80,15 +108,19 @@ export default class BubbleChart extends BaseChart {
 
     }
 
-    updateDatalabelView(){ 
-        this.chart.config.options.plugins.datalabels.display=!this.chart.config.options.plugins.datalabels.display; 
-        this.update(); 
-    }
-
+    /**
+     * @override
+     */
     displayDynamicOptions(){
         document.getElementById('scaleOptions').style.display='block';
         document.getElementById('secondScale').style.display='inline';
         document.getElementById('datalabelsOptions').style.display='block';
+    }
+
+    //if the display is true ist becomes false and vice versa. 
+    updateDatalabelView(){ 
+        this.chart.config.options.plugins.datalabels.display=!this.chart.config.options.plugins.datalabels.display; 
+        this.update(); 
     }
 
     

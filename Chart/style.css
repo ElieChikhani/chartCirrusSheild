@@ -13,16 +13,15 @@ body {
 }
 
 #dynamicOptions {
-    display : flex; 
+    display : flex;  
 }
 
 #chartViewContainer{
     display: flex;
-    justify-content:center; 
-    width:70%;  
-    padding: 20px;
-    margin:5%;
-    height: 75%; 
+    width:1000px;  
+    margin-top:50px; 
+    padding:20px;
+    height: 450px; 
     background: white; 
     border-radius: 8px; 
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
@@ -48,10 +47,16 @@ h3 {
     width : 100%; 
     text-align : center; 
     color:grey; 
+    margin-top:0px; 
 }
 
-
-
-
-
-
+.gaugeContainer {
+    display: flex;
+    justify-content:center; 
+    width:100%;  
+    padding: 40px;
+    height: 400px; 
+    flex-wrap:wrap;
+    overflow:display; 
+    margin:0px; 
+}

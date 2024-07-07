@@ -6,19 +6,31 @@ export default class FunnelChart extends BaseChart {
         super(clx,fetchedData);
     }
 
+     /**
+     * @override
+     */
     getType(){
         return 'funnel';
     }
 
+     /**
+     * @override
+     */
     getTitle(){
         return (this.yAxisLabel+' par '+this.xAxisLabel); 
     }
 
+     /**
+     * @override
+     */
     setConfig(){
         super.setConfig(); 
         this.config.plugins=[ChartDataLabels]; 
     }
 
+     /**
+     * @override
+     */
     getPlugins(){
         let plugins=super.getPlugins(); 
         console.log(plugins); 
@@ -28,6 +40,9 @@ export default class FunnelChart extends BaseChart {
         return plugins; 
     }
 
+     /**
+     * @override
+     */
     getScales(){
         return {
             x:{
@@ -40,12 +55,18 @@ export default class FunnelChart extends BaseChart {
         }
     }
 
+     /**
+     * @override
+     */
     getOptions(){
         let options=super.getOptions();
         options.indexAxis='y'; 
         return options; 
     }
 
+     /**
+     * @override
+     */
     mapData(){
         let data=super.mapData();  
         data.datasets[0].backgroundColor=this.getColorData(data.labels); 

@@ -19,5 +19,24 @@ export default class DrawingService {
         ctx.restore();
     }
 
+    static drawNeedle(ctx,color,startX,startY,length){
+        //needle drawing
+        ctx.beginPath(); 
+        ctx.strokeStyle=color;
+        ctx.fillStyle=color; 
+        ctx.moveTo(startX-10  ,startY);
+        ctx.lineTo(startX, length); 
+        ctx.lineTo(startX + 10 , startY); 
+        ctx.fill(); 
+        ctx.stroke(); 
+
+        //the circle 
+        ctx.beginPath(); 
+        ctx.arc(startX, startY, 10, 0, 360 * Math.PI/180,false);
+        ctx.fill(); 
+
+        ctx.restore(); 
+    }
+
    
 }

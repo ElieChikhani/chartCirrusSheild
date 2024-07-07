@@ -30,6 +30,6 @@
 
     "DataChartType": "LineChart",
     "DataChartXFieldLabel": "Date de creation",
-    "DataChartYFeildLabel": "Nb. d'employes" 
+    "DataChartYFieldLabel": "Nb. d'employes" 
 
   }

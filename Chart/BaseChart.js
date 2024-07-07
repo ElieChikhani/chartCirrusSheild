@@ -23,13 +23,17 @@ export default class BaseChart {
 
 
     /**
-     * Getters and setters for all chart attributes : 
+     * Checks if the  data is grouped by checking if a group label has been passed form the jsonFile. 
+     * @returns boolean
      */
-
     isGrouped(){
-      return this.groupLabel ? true : false; //group label is a feild added to the JSONData  
+      return this.groupLabel ? true : false; //group label is a Field added to the JSONData  
     } 
 
+    /**
+     * Returns the type name supported by chart.js (too general to implement at this phase)
+     * @returns string
+     */
     getType(){
         throw new Error('Invalid type ! ')
     }
@@ -38,6 +42,9 @@ export default class BaseChart {
         return ' ';  
     }
 
+    /**
+     * Sets the geenral structure of the config of any chart
+     */
     setConfig(){
         this.config = {
             type : this.getType(),
@@ -46,38 +53,36 @@ export default class BaseChart {
         }
     }
 
+    //retriving labels from the jsonData : 
     setXAxisLabel(){
         this.xAxisLabel=this.jsonData.DataChartXFieldLabel; 
     }
 
     setYAxisLabel(){
-        this.yAxisLabel=this.jsonData.DataChartYFeildLabel;
+        this.yAxisLabel=this.jsonData.DataChartYFieldLabel;
     }
 
+    //the group label is added (not in the original format of the json file)
     setGroupLabel(){
         this.groupLabel=this.jsonData.GroupedBy;
     }
 
+  
     getOptions() {
         return {
             responsive:true,
-            maintainAspectRatio: false,
-            indexAxis:'x',
+            maintainAspectRatio: false, // to make it responsive with the size of the div containing the chart
+            indexAxis:'x', 
             scales:this.getScales(),
             plugins:this.getPlugins(),
             layout:this.getLayout(),
             onClick: (event, elements) => {
               if (elements.length > 0) {
-                  const clickedElementIndex = elements[0].index;
-                  const sectionId = `section-${clickedElementIndex}`; 
-                  document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
-                  document.getElementById(sectionId).style.backgroundColor = 'rgb(0,0,0,0.1)';
-                  setTimeout(() => {
-                  document.getElementById(sectionId).style.backgroundColor = 'white';
-                }, 500); 
+                  //scroll down and filter to the report
+              } 
           }
         } 
-        }
+      
 
     }
 
@@ -120,7 +125,10 @@ export default class BaseChart {
           }
     }
 
-    //the implementation of mapData (and all its overides) should be modidied when the JSONData is in correct format 
+    /**
+     * //the implementation of mapData (and all its overides) should be modidied when the JSONData is in correct format 
+     * @returns array 
+     */
     mapData(){ 
         return {
             labels: this.jsonData.Data.map(item => item.Name),
@@ -142,6 +150,7 @@ export default class BaseChart {
      */
 
 
+    //create a chart in chart.js, automatically draws it. 
     drawChart(){ 
         this.chart = new Chart(this.clx,this.config)
         this.displayDynamicOptions(); 
@@ -159,10 +168,12 @@ export default class BaseChart {
       this.chart.update(); 
     }
 
+    //used to switch axis
     updateIndexAxis(axis) {
       if (this.chart) {
         this.chart.config.options.indexAxis=axis; 
-   
+
+        //when the indexAxis is changed, the properties of the axes should also be switched. 
         let tempScales = this.chart.config.options.scales.x; 
         this.chart.config.options.scales.x=this.chart.config.options.scales.y; 
         this.chart.config.options.scales.y=tempScales; 
@@ -170,10 +181,10 @@ export default class BaseChart {
       }
     }
 
+    //used to update the ticks of the scale (echelle)
     updateScale(newScale,axis){
       if (this.chart) {
-
-        if(axis==='x'){
+        if(axis==='x'){ 
           this.chart.config.options.scales.x.ticks.stepSize=newScale;
         }else {
           this.chart.config.options.scales.y.ticks.stepSize=newScale;
@@ -183,14 +194,19 @@ export default class BaseChart {
       }
     }
 
-    resize(){
-      this.chart.resize(); 
-    }
 
+  
+    // ----------------------- Data manipulation functions  -----------------------
+
+    //Due to the "incorrect grouping" in the current JSON file, these methods groups the data correctly. 
+     
+    /**
+     * @returns xData : Array (the list of all the xData)
+     */
     getXElements(){ 
         let xData=[]; 
         this.jsonData.Data.forEach(function(item){ 
-          let element = (item.Name).substring(0,(item.Name).indexOf('-')); 
+          let element = (item.Name).substring(0,(item.Name).indexOf('-')); //according to the current format Name =  xElement-Group
       
           if(!(xData.includes(element))){
             xData.push(element); 
@@ -199,20 +215,27 @@ export default class BaseChart {
       
       return xData; 
     }
-      
+    
+    /**
+     * @returns groupCategories : Array (the list of all groups)
+     */
     getGroupedXValue(){ 
-        let groupCategory=[]; 
+        let groupCategories=[]; 
         this.jsonData.Data.forEach(function(item){ 
       
           let group = (item.Name).substring((item.Name).indexOf('-')+1); 
-          if(!(groupCategory.includes(group))){
-            groupCategory.push(group); 
+          if(!(groupCategories.includes(group))){ 
+            groupCategories.push(group); 
         }
       });
       
-        return groupCategory; 
+        return groupCategories; 
     }
 
+    /**
+     * @returns yData : Multidimensional Array :  yData for each group Category and xData in a multidimentional array 
+     * (since the same xData can be found in many groups)
+     */
     getGroupedYValue(groupCategory){ 
         let numberOfCategories=groupCategory.length; 
         let yData=[]; 
@@ -235,6 +258,10 @@ export default class BaseChart {
       
     }
 
+    /**
+     * @returns colorData : Array - Array of colors for each group (in case of grouping) or each xData if available (picklist)
+     * it returns an empty array if no color is chosen by the user (chart.js will choose random colors when given an empty array)
+     */
     getColorData(coloredData){
       let grouped=this.grouped; 
       let colorData=[]; 
@@ -244,8 +271,9 @@ export default class BaseChart {
       colorData.length=coloredData.length; 
       this.jsonData.Data.forEach(function(item){
         if(!colorData.includes(item.ChartJS_Color)){
+            //the color data should be in the same order of the colored data (group or xValue)
             if(grouped){
-            colorData[coloredData.indexOf(item.Name.substring(0,item.Name.indexOf('-')))]=item.ChartJS_Color;
+            colorData[coloredData.indexOf(item.Name.substring(0,item.Name.indexOf('-')))]=item.ChartJS_Color; 
             }else{
             colorData[coloredData.indexOf(item.Name)]=item.ChartJS_Color; 
             }

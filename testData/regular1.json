@@ -29,6 +29,6 @@
 
     "DataChartType": "VerticalBarChart",
     "DataChartXFieldLabel": "Secteur d'activité",
-    "DataChartYFeildLabel": "Montant total" 
+    "DataChartYFieldLabel": "Montant total" 
 
   }

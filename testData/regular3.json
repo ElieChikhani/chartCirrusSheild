@@ -21,7 +21,7 @@
 
       {
         "Name": "Education",
-        "Value": 10,
+        "Value": 9,
         "ChartJS_Color": "rgb(255,0,255)"
       },
 
@@ -36,6 +36,6 @@
 
     "DataChartType": "PieChart",
     "DataChartXFieldLabel": "Secteur d'activité",
-    "DataChartYFeildLabel": "Nb. d'employes" 
+    "DataChartYFieldLabel": "Nb. d'employes" 
 
   }

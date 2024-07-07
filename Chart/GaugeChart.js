@@ -1,4 +1,5 @@
 import DoughnutChart from './DoughnutChart.js'; 
+import DrawingService from '../Services/DrawingService.js'
 
 export default class GaugeChart extends DoughnutChart {
 
@@ -6,10 +7,16 @@ export default class GaugeChart extends DoughnutChart {
        super(clx,fetchedData)
     }
 
+     /**
+     * @override
+     */
     getTitle(){
         return this.jsonData.Name; 
     }
 
+     /**
+     * @override
+     */
     mapData(){
         let data = {}
         data.datasets=[
@@ -25,6 +32,9 @@ export default class GaugeChart extends DoughnutChart {
         return data; 
     }
 
+     /**
+     * @override
+     */
     getLayout(){
         return {
             padding : {
@@ -33,21 +43,30 @@ export default class GaugeChart extends DoughnutChart {
         }; 
     }
 
+     /**
+     * @override
+     */
     setConfig(){
         this.config = {
             type : this.getType(),
             data:this.mapData(),
             options: this.getOptions(),
-            plugins:[this.getGaugeNeedle(),this.getFlowMeter()]
+            plugins:[this.getGaugeNeedle(),this.getFlowMeter()] //adding the extrnal plugins
         }
     }
 
+     /**
+     * @override
+     */
     getOptions(){
         let options = super.getOptions(); 
         options.onClick = {}; 
         return options; 
     }
 
+     /**
+     * @override
+     */
     getPlugins(){
         let plugins=super.getPlugins(); 
         plugins.legend.display=false; 
@@ -55,19 +74,23 @@ export default class GaugeChart extends DoughnutChart {
         return plugins;
     }
 
-    getGaugeNeedle(){
+    //external plugins : 
 
+
+    //drawing the needle
+    getGaugeNeedle(){
         return {
             id: 'gaugeNeedle',
             afterDatasetsDraw(chart, args, plugins){
                 const {ctx, data } = chart; 
- 
                 let xCenter = chart.getDatasetMeta(0).data[0].x; 
                 let yCenter = chart.getDatasetMeta(0).data[0].y;
                 let outerRadius = chart.getDatasetMeta(0).data[0].outerRadius; 
                 let innerRadius = chart.getDatasetMeta(0).data[0].innerRadius; 
                 let needleValue = data.datasets[0].needleValue; 
                 let dataTotal = data.datasets[0].data.reduce((a,b)=> a+b,0); 
+
+                //mathematical calcultaion to get the orientation of the needle (angle with x axis) :
                 let orientation = ((chart.getDatasetMeta(0).data[0].circumference/Math.PI)/data.datasets[0].data[0])  * needleValue; 
                 
                 if(orientation>1){
@@ -76,35 +99,16 @@ export default class GaugeChart extends DoughnutChart {
                     orientation =0; 
                 }
 
-
                 ctx.save(); 
                 ctx.translate(xCenter,yCenter); 
                 ctx.rotate(Math.PI * (orientation - 1.5))
 
-                //needle drawing
-
-                ctx.beginPath(); 
-                ctx.strokeStyle='grey';
-                ctx.fillStyle='grey'; 
-                ctx.moveTo(0-10  ,0);
-                ctx.lineTo(0, innerRadius-5); 
-                ctx.lineTo(0 + 10 , 0); 
-                ctx.fill(); 
-                ctx.stroke(); 
-
-                //the circle 
-                ctx.beginPath(); 
-                ctx.arc(0, 0, 10, 0, 360 * Math.PI/180,false);
-                ctx.fill(); 
-
-                ctx.restore(); 
-            
-
+               DrawingService.drawNeedle(ctx,'grey',0,0,innerRadius-5); 
             }
         }
-
     }
 
+    
     getFlowMeter(){
         return {
             id: 'gaugeFlowMeter',
@@ -114,19 +118,9 @@ export default class GaugeChart extends DoughnutChart {
                 let needleValue = data.datasets[0].needleValue;  
                 let xCenter = chart.getDatasetMeta(0).data[0].x; 
                 let yCenter = chart.getDatasetMeta(0).data[0].y;
-                let orientation = ((chart.getDatasetMeta(0).data[0].circumference/Math.PI)/data.datasets[0].data[0])  * needleValue; 
 
-                ctx.font ='bold 20px sans-serif';
-                ctx.textAlign = 'center';
-                ctx.fillStyle = 'black';
-                ctx.fillText(needleValue,xCenter, yCenter+35); 
-
+                DrawingService.fillText(ctx,'black','bold 20px sans-serif','center',needleValue,xCenter,yCenter+35);
             }
         }
-
     }
-
-    getTooltip(){
-    }
-
 }

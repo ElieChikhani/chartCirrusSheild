@@ -1,8 +1,7 @@
 import BaseChart from './BaseChart.js'; 
-
 export default class MapChart extends BaseChart {
 
-    countries; 
+    countries; //topo JSON File
 
     constructor(clx,fetchedData,countries){
         super(clx,fetchedData); 
@@ -10,14 +9,23 @@ export default class MapChart extends BaseChart {
         this.setConfig();  
     }
 
+     /**
+     * @override
+     */
     getTitle(){
         return this.yAxisLabel+' par '+ this.xAxisLabel
     }
 
+     /**
+     * @override
+     */
     getType(){
         return 'choropleth'
     }
 
+     /**
+     * @override
+     */
     mapData(countries){
         let data= {
             labels: countries.map(country => country.properties.name),
@@ -31,11 +39,17 @@ export default class MapChart extends BaseChart {
         return data; 
     }  
 
+     /**
+     * @override
+     */
     getValue(country) {
         let item = this.jsonData.Data.find(item => item.country == country);
         return item ? item.value : 0;
     }
 
+     /**
+     * @override
+     */
     setConfig(){
         if(this.countries){
         let data = this.mapData(this.countries); 
@@ -49,6 +63,9 @@ export default class MapChart extends BaseChart {
       console.log(this.config); 
     }
     
+     /**
+     * @override
+     */
     getOptions(){
         let options=super.getOptions(); 
         options.showOutline=false; 
@@ -57,6 +74,9 @@ export default class MapChart extends BaseChart {
 
     }
 
+     /**
+     * @override
+     */
     getScales(){
         let barLabel = this.yAxisLabel; 
         return {
@@ -86,6 +106,9 @@ export default class MapChart extends BaseChart {
         }
     }
 
+     /**
+     * @override
+     */
     isGrouped(){
         return false; 
     }
@@ -94,6 +117,13 @@ export default class MapChart extends BaseChart {
         this.chart.config.options.showOutline = ! this.chart.config.options.showOutline;
         this.chart.config.options.showGraticule = ! this.chart.config.options.showGraticule;
         this.chart.update(); 
+    }
+
+    /**
+     * @override
+     */
+    displayDynamicOptions(){
+        document.getElementById('mapOptions').style.display = 'inline'; 
     }
 
    

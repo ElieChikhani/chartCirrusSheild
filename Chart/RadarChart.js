@@ -7,14 +7,23 @@ export default class RadarChart extends BaseChart {
         super(clx,fetchedData);
     }
 
+     /**
+     * @override
+     */
     getType(){
         return 'radar'
     }
 
+     /**
+     * @override
+     */
     isGrouped(){
         return false; 
     }
 
+     /**
+     * @override
+     */
     mapData(){
         let data = this.jsonData.Data; 
 
@@ -27,6 +36,9 @@ export default class RadarChart extends BaseChart {
         return data; 
     }
 
+     /**
+     * @override
+     */
     getScales(){
     return {
         x:{
@@ -42,6 +54,9 @@ export default class RadarChart extends BaseChart {
       }
     }
 
+     /**
+     * @override
+     */
     getPlugins(){
         return {
             legend: {

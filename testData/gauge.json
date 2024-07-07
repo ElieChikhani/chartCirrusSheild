@@ -61,6 +61,6 @@
 
     "DataChartType": "gauge",
     "DataChartXFieldLabel": "Secteur d'activité",
-    "DataChartYFeildLabel": "Nb d'employes" 
+    "DataChartYFieldLabel": "Nb d'employes" 
 
   }

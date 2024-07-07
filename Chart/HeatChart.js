@@ -3,41 +3,54 @@ import BaseChart from './BaseChart.js';
 
 export default class HeatChart extends BaseChart {
 
-
     constructor(clx,fetchedData){
         super(clx,fetchedData);
     }
 
+     /**
+     * @override
+     */
     getType(){
         return 'matrix';
     }
 
+     /**
+     * @override
+     */
     getTitle(){
         return this.jsonData.valueLabel+' par '+this.jsonData.rowLabel+' et '+this.jsonData.columnLabel; 
     }
 
+     /**
+     * @override
+     */
     isGrouped(){
         return false; 
     }
 
+     /**
+     * @override
+     */
     mapData(){
         let data = this.jsonData.Data;
         let vValues = this.jsonData.Data.map(item => item.v)
         let minValue=Math.min(...vValues);
         let maxValue=Math.max(...vValues);
-        this.setMinMaxValues(minValue,maxValue); 
+        this.setMinMaxValues(minValue,maxValue); //to use later
         let numberOfXTicks = Math.max(...data.map(d => d.x)) + 1;
         let numberOfYTicks = Math.max(...data.map(d => d.y)) + 1;
         let that=this; //in order to access functions from this class. 
 
         return {
             datasets: [{
-                data: data,
+                data: data, 
                 backgroundColor: function(context) {
                     const value = context.dataset.data[context.dataIndex].v;
-                    return that.getColor(value,minValue,maxValue);
-                },
+                    return that.getColor(value,minValue,maxValue); //setting the background color acordint to the range
+                }, 
                 borderWidth: 0,
+
+                //adjusting the width and height of each cell to be responsive to the size of data : 
                 width: function(context) {
                     let chartArea = context.chart.chartArea;
                     if (!chartArea) {
@@ -61,11 +74,17 @@ export default class HeatChart extends BaseChart {
         this.maxValue=maxValue;
     }
 
+     /**
+     * @override
+     */
     setConfig(){
         super.setConfig();
         this.config.plugins=[this.createColorBarPluginExtension()]
     }
 
+     /**
+     * @override (transforming the scales of a chart to a table format)
+     */
     getScales(){
         let xLabels = this.jsonData.columns; 
         let yLabels = this.jsonData.rows; 
@@ -107,6 +126,9 @@ export default class HeatChart extends BaseChart {
         }
     }
 
+     /**
+     * @override
+     */
     getLayout(){
         return {
             padding: {
@@ -118,6 +140,9 @@ export default class HeatChart extends BaseChart {
         }
     }
 
+     /**
+     * @override
+     */
     getPlugins(){
         let that=this;
         let plugins=super.getPlugins(); 
@@ -136,12 +161,13 @@ export default class HeatChart extends BaseChart {
         return plugins;    
     }
 
+    
     getColor(value,min,max) {
         const opacity = ((value - min) / (max - min)) + 0.1;
-        return `rgba(0, 0, 255, ${opacity})`;
+        return `rgba(0, 0, 255, ${opacity})`; // fixed color blue. 
     }
 
-    //in a heat chart, the color bar should be created manually 
+    //in a heat chart, the color bar should be created manually as an external extention.
     createColorBarPluginExtension(){
     return {
         id: 'colorBarPlugin',

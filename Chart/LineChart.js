@@ -6,27 +6,34 @@ export default class LineChart extends BaseChart{
 
     constructor(clx,fetchedData){
        super(clx,fetchedData); 
-       this.setYAxisLabel2(); 
-       this.chartData = this.mapData(); 
-       this.setConfig(); 
     }
 
     setYAxisLabel2(){
-        this.yAxisLabel2=this.jsonData.DataChartYFeildLabel2; 
+        this.yAxisLabel2=this.jsonData.DataChartYFieldLabel2; 
     }
 
+     /**
+     * @override
+     */
     getType(){
         return 'line'; 
     }
 
+     /**
+     * @override
+     */
     getTitle(){
     let secondYData = this.yAxisLabel2?' et '+this.yAxisLabel2:''
     let grouping = this.isGrouped()? ' groupé par '+ this.groupLabel :''
     return ('Tendance' + ' des ' + this.yAxisLabel + secondYData + ' par ' + this.xAxisLabel+grouping);
     }
 
+     /**
+     * @override
+     */
     mapData(){
         let data; 
+        this.setYAxisLabel2(); 
 
         if(this.grouped){
             data=this.getGroupedData(); 
@@ -43,25 +50,43 @@ export default class LineChart extends BaseChart{
             }
         }
 
-        console.log(data); 
+        
         return data; 
 
     }
 
+     /**
+     * @override
+     */
     getPlugins(){
         let plugins=super.getPlugins(); 
         plugins.legend.display=this.isGrouped() || this.yAxisLabel2 !== undefined;
         return plugins; 
     }
 
+     /**
+     * @override
+     */
     displayDynamicOptions(){
       document.getElementById('scaleOptions').style.display='block';
+
     }
 
-    /**
-     * additional JSONData manipulation (not needed when JSONData is in correct format)
+     /**
+     * @override
      */
+    getScales(){
+      let scales = super.getScales();
+      scales.y.title.display =this.yAxisLabel2 ? false : true; 
 
+      return scales; 
+    }
+
+     // ----------------------- Data manipulation functions  -----------------------
+
+     /**
+     * @override
+     */
     getGroupedData(){
         
           let dataLabels=this.getXElements(); 
@@ -95,6 +120,9 @@ export default class LineChart extends BaseChart{
         
     }
 
+     /**
+     * @override
+     */
     getColorData(coloredData){
         let colorData=[]; 
         if(!this.jsonData.Data[0].ChartJS_Color){

@@ -4,14 +4,28 @@ import DrawingService from '../Services/DrawingService.js';
 
 export default class PieChart extends BaseChart {
 
+    //GROUP LABELS CONTRAINTS :
+    HORIZONTAL_OFFSET = 50; // Length of horizontal lines outside the chart
+    VERTICAL_SPACING = 30; // Vertical spacing between horizontal lines
+    ANGLE_LENGTH = 20; // Length of the angled line segment 
+    FIXED_ANGLE = Math.PI / 4; // Fixed angle (45 degrees)
+
+
+
     constructor(clx,fetchedData){
         super(clx,fetchedData);
     }
 
+     /**
+     * @override
+     */
     getType(){
         return 'pie'; 
     }
 
+     /**
+     * @override
+     */
     getTitle(){
       let groupement=this.grouped?' groupé par '+this.groupLabel:'';
       return ('Repartition du '+this.yAxisLabel+' par '+this.xAxisLabel+groupement); 
@@ -28,7 +42,7 @@ export default class PieChart extends BaseChart {
     
          plugins.push({
             id: 'outerLabel',
-            afterDraw: (chart) => this.drawOuterLabels(chart) //after render : only after the first drawing not after any updates
+            afterDraw: (chart) => this.drawGroupLabels(chart) //after render : only after the first drawing not after any updates
          })
          plugins.push(this.getLegendMargin());
        }
@@ -36,13 +50,13 @@ export default class PieChart extends BaseChart {
       return plugins; 
     
     }
-    
+   
     getDatalabels() {
       return {
-        formatter: (value,context) => this.generateDatalabel(value,context),
+        formatter: (value,context) => this.generateDatalabelContent(value,context),
 
         color: (context) =>  this.generateDatalableColor(context),
-        font: {
+        font:{
           weight: 'bold',
           size: 10,
           family: 'Arial'
@@ -53,23 +67,33 @@ export default class PieChart extends BaseChart {
       };
     }
 
-    generateDatalabel(value,context){
+    generateDatalabelContent(value,context){
       let total = this.getTotal(context); 
-         if(total===null){
-          return null; 
-         }
+      if(total===null){
+        return null; 
+      }
 
-         let percentage = ((value / total )* 100 ).toFixed(1);
+      let percentage  = ((value / total )*100).toFixed(1); 
+      let label = value + '\n' + percentage+'%';
+      let sliceAngle = (value / total) * 360; 
 
-         //check if the label can fit in the portion
-         let sliceAngle = (value / total) * 360;
-         let chartArea = context.chart.chartArea;
-         let radius = (Math.min(chartArea.right - chartArea.left, chartArea.bottom - chartArea.top) / 2);
-         let thickness = radius / context.dataset.data.length;
+      let chartArea = context.chart.chartArea
+      let outerRadius = Math.min(chartArea.right - chartArea.left, chartArea.bottom - chartArea.top) / 2;
+      let thickness = outerRadius/this.numberOfGroups; 
+      let groupIndex = context.datasetIndex; 
+      let middleArcLength = this.getMiddleArcLength(thickness,groupIndex,sliceAngle,outerRadius); 
+      let labelLength = this.getLabelLength(label);
 
-         return this.canDisplayDatalable(sliceAngle,thickness) ? value + '\n' + percentage+'%' : ' '; 
+      return this.canDisplayDatalabel(thickness, middleArcLength, labelLength) ? value + '\n' + percentage+'%' : ' '; 
     }
 
+    getMiddleArcLength(thickness,groupIndex,sliceAngle,outerRadius){
+      let sliceAngleRadians = sliceAngle * (Math.PI / 180);
+      let radius = outerRadius - (groupIndex * thickness) - 0.5*thickness; 
+      return(radius * sliceAngleRadians);
+    }
+
+    //generate the text color of the datalable according to the background of the portion
     generateDatalableColor(context){
       let dataset = context.chart.data.datasets[context.datasetIndex];
       let bgColor = dataset.backgroundColor[context.dataIndex]; // Use the base background color
@@ -77,16 +101,21 @@ export default class PieChart extends BaseChart {
       return color;
     }
 
-    //this method returns true if the datalble fits in the portion and false otherwise
-    canDisplayDatalable(angle,thickness){
-      if(this.grouped){
-        return (angle >= 38 && thickness >=50)
-      }else {
-        return (angle >= 20)
-      }
-
+    getLabelLength(label) {
+      this.clx.font = 'bold 10px Arial'; // Adjust this to match your chart's font
+      let labelLines = label.split('\n'); 
+      let labelWidths = labelLines.map(line => this.clx.measureText(line).width);
+      return Math.max(...labelWidths);
     }
 
+    //this method returns true if the datalble fits in the portion and false otherwise
+    canDisplayDatalabel(thickness, arcLength,labelLength) {
+      return (thickness >= labelLength && arcLength >= labelLength);
+    }
+
+     /**
+     * @override
+     */
     getPlugins(){
         let plugins=super.getPlugins(); 
         plugins.legend={
@@ -99,7 +128,10 @@ export default class PieChart extends BaseChart {
           // Toggle visibility of the item
           ci.data.datasets.forEach((dataset, datasetIndex) => {
             const meta = ci.getDatasetMeta(datasetIndex);
+
+            if(meta.data[index]){
             meta.data[index].hidden = !meta.data[index].hidden;
+            }
           });
         
           // Recalculate and update the chart
@@ -119,12 +151,18 @@ export default class PieChart extends BaseChart {
         return plugins; 
     }
       
+     /**
+     * @override
+     */
     setConfig(){
         let pluingsExtension=this.getPluginsExtention(); 
         super.setConfig(); 
         this.config.plugins=pluingsExtension;
     }
 
+     /**
+     * @override
+     */
     getOptions(){
       let options = super.getOptions();
       console.log(options); 
@@ -133,70 +171,75 @@ export default class PieChart extends BaseChart {
       return options; 
     }
 
+     /**
+     * @override
+     */
     mapData(){
+      let data; 
 
-        let data; 
+      if(this.grouped){
+         data=this.getGroupedData(); 
+      }else{
+        data=super.mapData(); 
+         data.datasets[0].backgroundColor=this.getColorData(data.labels); 
+      }
 
-        if(this.grouped){
-
-            data=this.getGroupedData(); 
-
-        }else{
-            data=super.mapData(); 
-            data.datasets[0].backgroundColor=this.getColorData(data.labels); 
-        }
-
+        this.numberOfGroups = data.datasets.length; 
         return data; 
 
     }
 
-    drawOuterLabels(chart) {
-      let ctx = chart.ctx;
+
+    drawGroupLabels(chart) {
       let datasets = chart.data.datasets;
   
       let chartArea = chart.chartArea;
+
+      //finding the center of the pie. 
       let centerX = (chartArea.left + chartArea.right) / 2;
       let centerY = (chartArea.top + chartArea.bottom) / 2;
   
       // Maximum radius
-      this.maxRadius = Math.max(...datasets.map(dataset => {
+      let maxRadius = Math.max(...datasets.map(dataset => {
           let meta = chart.getDatasetMeta(datasets.indexOf(dataset));
           let firstNonHiddenArc = meta.data.find(arc => !arc.hidden);
           return firstNonHiddenArc ? firstNonHiddenArc.outerRadius : 0;
-      }));
-  
-      let horizontalOffset = 50; // Length of horizontal lines outside the chart
-      let verticalSpacing = 30; // Vertical spacing between horizontal lines
-      let angleLength = 20; // Length of the angled line segment
-      let fixedAngle = Math.PI / 4; // Fixed angle (45 degrees)
+      })); 
+
   
       // Fixed end point for the horizontal lines
-      let fixedEndX = chartArea.right + horizontalOffset;
+      let fixedEndX = chartArea.right + this.HORIZONTAL_OFFSET;
   
-      datasets.forEach((dataset, i) => {
-          const meta = chart.getDatasetMeta(i);
-          const firstNonHiddenArc = meta.data.find(arc => !arc.hidden);
-  
-          if (!firstNonHiddenArc) return; // Skip if all data points are hidden
-  
-          let radius = firstNonHiddenArc.outerRadius; // Outer radius of the arc
-  
-          // Calculate start position at the top edge of the circle
-          let startX = centerX;
-          let startY = centerY - radius;
-  
-          // Calculate the endpoint of the angled line segment
-          let angledEndX = startX + angleLength * Math.cos(fixedAngle);
-          let angledEndY = startY - angleLength * Math.sin(fixedAngle);
-  
-          // Calculate the start position of the horizontal line
-          let endX = fixedEndX - 200;
-          let endY = angledEndY;
+      this.drawGroupAnnotations(chart,datasets,centerX,centerY,fixedEndX); 
+    }
 
-          DrawingService.drawLine(ctx,'black',startX,startY,angledEndX,angledEndY);
-          DrawingService.drawLine(ctx,'black',angledEndX,angledEndY,endX,endY); 
-          DrawingService.fillText(ctx,'black','12px Arial','left',dataset.label,endX+5,endY)
-      });
+    //draws lines and annotations of the group labels
+    drawGroupAnnotations(chart,datasets,centerX,centerY,fixedEndX){
+      datasets.forEach((dataset, i) => {
+        let meta = chart.getDatasetMeta(i);
+        let firstNonHiddenArc = meta.data.find(arc => !arc.hidden);
+
+        if (!firstNonHiddenArc) return; // Skip if all data points are hidden
+
+        let radius = firstNonHiddenArc.outerRadius; // Outer radius of the arc
+
+        // Calculate start position at the top edge of the circle
+        let startX = centerX;
+        let startY = centerY - radius;
+
+        // Calculate the endpoint of the angled line segment
+        let angledEndX = startX + this.ANGLE_LENGTH * Math.cos(this.FIXED_ANGLE);
+        let angledEndY = startY - this.ANGLE_LENGTH * Math.sin(this.FIXED_ANGLE);
+
+        // Calculate the start position of the horizontal line
+        let endX = fixedEndX - 200;
+        let endY = angledEndY;
+
+        DrawingService.drawLine(this.clx,'black',startX,startY,angledEndX,angledEndY);
+        DrawingService.drawLine(this.clx,'black',angledEndX,angledEndY,endX,endY); 
+        DrawingService.fillText(this.clx,'black','12px Arial','left',dataset.label,endX+5,endY)
+    });
+
     }
 
     //this function returns the total of the values of non hidden elements in the chart. 
@@ -216,6 +259,9 @@ export default class PieChart extends BaseChart {
       return total; 
     }
 
+     /**
+     * @override
+     */
     getScales(){
         return {
             x:{
@@ -242,6 +288,8 @@ export default class PieChart extends BaseChart {
       }
     }
 
+    //this is an extra plugins to add space between the legends and the graph so the lines of 
+    //the groups anmes don't get in the way of the legends
     getLegendMargin(){
       return {
       id:'legendMargin',
@@ -259,6 +307,9 @@ export default class PieChart extends BaseChart {
 
     }
 
+     /**
+     * @override
+     */
     getGroupedData(){
       let dataLabels=this.getXElements(); 
       let datasetsLabels=this.getGroupedXValue();

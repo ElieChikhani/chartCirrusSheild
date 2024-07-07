@@ -17,21 +17,11 @@ async function fetchData(url) {
     return response.json();
 }
 
-let testUrl='../testData/'+'gauge.json'; 
+let testUrl='../testData/'+'groupedBubble.json'; 
 createChart(testUrl); 
 
 
 async function createChart(url){
-    document.getElementById('newChart').style.display='block'; 
-    document.getElementById('chartViewContainer').style.display='block'; 
-    let gaugeCharts = document.getElementsByClassName("gaugeCanvas");; 
-    if (gaugeCharts.length > 0) {
-      // Convert HTMLCollection to an array
-      Array.from(gaugeCharts).forEach(function(item) {
-        item.remove();
-      });
-    }
-
     let clx=document.getElementById('newChart').getContext('2d'); 
     let fetchedData = await fetchData(url); 
     
@@ -94,7 +84,6 @@ async function createChart(url){
 
         chart = new MapChart(clx,fetchedData,countries);
         chart.drawChart(); 
-        document.getElementById('mapOptions').style.display = 'inline'
       break;  
 
       case 'heat' : 
@@ -102,11 +91,9 @@ async function createChart(url){
       chart.drawChart(); 
       break; 
 
-
-
       default :
       throw new Error('Chart type is not supported'); 
-      }
+    }
     
 }
 
@@ -132,11 +119,11 @@ document.getElementById('stack').addEventListener('change',function(){
   })
 
 document.getElementById('scale').addEventListener('change',function(){
-    chart.updateScale(this.value,chart.config.options.scales.indexAxis); 
-})
-
-document.getElementById('secondScale').addEventListener('change',function(){
-  chart.updateScale(this.value,'x'); 
+    if(chart.config.options.indexAxis==='x'){
+      chart.updateScale(this.value,'y');
+    }else {
+      chart.updateScale(this.value,'x');
+    }
 })
 
 document.getElementById('secondScale').addEventListener('change',function(){

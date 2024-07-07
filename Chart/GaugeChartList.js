@@ -1,7 +1,7 @@
 import GaugeChart from './GaugeChart.js';
 
 export default class GaugeChartList {
-
+    //a gauges chart is a group of gauge charts 
     chartList=[]
 
     constructor(fetchedData){
@@ -9,15 +9,18 @@ export default class GaugeChartList {
     }
     
 
+    //create the canvas html elements
     getCanvasList(fetchedData){
         document.getElementById('newChart').style.display='none';
         let canvasList = []; 
         let container = document.getElementById('chartViewContainer');
-        container.style.display='flex';   
-        this.setTitle(fetchedData,container)
+        let gaugeContainer = document.createElement('div'); 
+        container.appendChild(gaugeContainer); 
+        gaugeContainer.className = 'gaugeContainer'  
+        this.setTitle(fetchedData,gaugeContainer)
         fetchedData.Data.forEach(function(item){
             let newCanvas= document.createElement('canvas'); 
-            container.appendChild(newCanvas);
+            gaugeContainer.appendChild(newCanvas);
             newCanvas.className='gaugeCanvas';  
             canvasList.push(newCanvas); 
         })
@@ -26,6 +29,7 @@ export default class GaugeChartList {
 
     }
 
+    //create the gayge charts
     setChartList(fetchedData){
         let canvasList = this.getCanvasList(fetchedData); 
         let that = this; 
@@ -35,15 +39,17 @@ export default class GaugeChartList {
 
     }
 
+    //draw all the charts. 
     drawChart(){
        this.chartList.forEach(function(item){
             item.drawChart(); 
         })
     }
 
+    //sets the general title of all the charts 
     setTitle(fetchedData,container){
         let titleElement = document.createElement('h3'); 
-        titleElement.innerHTML = fetchedData.DataChartYFeildLabel+' par '+fetchedData.DataChartXFieldLabel
+        titleElement.innerHTML = fetchedData.DataChartYFieldLabel+' par '+fetchedData.DataChartXFieldLabel
         container.appendChild(titleElement); 
 
     }

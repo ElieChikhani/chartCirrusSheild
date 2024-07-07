@@ -33,7 +33,7 @@
 
     "DataChartType": "VerticalBarChart",
     "DataChartXFieldLabel": "Nom",
-    "DataChartYFeildLabel": "Nb. d'employes", 
+    "DataChartYFieldLabel": "Nb. d'employes", 
     "GroupedBy":"Secteur d'activite" 
 
   }

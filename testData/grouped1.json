@@ -62,7 +62,7 @@
 
     "DataChartType": "VerticalBarChart",
     "DataChartXFieldLabel": "Secteur d'activité",
-    "DataChartYFeildLabel": "Nb. d'employes",
+    "DataChartYFieldLabel": "Nb. d'employes",
     "GroupedBy":"Pays" 
 
   }

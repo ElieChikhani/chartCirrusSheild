@@ -4,10 +4,19 @@ export default class PolarAreaChart extends PieChart{
 
     constructor(clx,fetchedData){
         super(clx,fetchedData); 
-        this.grouped=false; 
     }
 
+     /**
+     * @override
+     */
     getType(){
         return 'polarArea'; 
+    }
+
+     /**
+     * @override
+     */
+    isGrouped(){
+        return false; //ploar area are not grouped
     }
 }

@@ -29,6 +29,6 @@
 
   "DataChartType": "funnel",
   "DataChartXFieldLabel": "Status",
-  "DataChartYFeildLabel": "Nb de devis" 
+  "DataChartYFieldLabel": "Nb de devis" 
 
 }

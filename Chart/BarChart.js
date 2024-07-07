@@ -7,16 +7,24 @@ export default class BarChart extends BaseChart {
         super(clx,fetchedData);
     }
 
+     /**
+      *  @override
+     */
     getType(){
         return 'bar';
     }
 
+     /**
+     * @override
+     */
     getTitle(){
         let groupement=this.grouped?' groupe par '+this.groupLabel:'';
         return ('Comparaison du '+this.yAxisLabel+' par '+this.xAxisLabel+groupement); 
-
     }
 
+     /**
+     * @override
+     */
     getScales(){
         let scales=super.getScales();
         scales.x.stacked=true;
@@ -24,12 +32,9 @@ export default class BarChart extends BaseChart {
         return scales; 
     }
 
-    updateStackStatus(){
-        this.chart.config.options.scales.x.stacked=!this.chart.config.options.scales.x.stacked; 
-        this.chart.config.options.scales.y.stacked=!this.chart.config.options.scales.y.stacked;
-        this.update(); 
-    }
-
+     /**
+     * @override
+     */
     mapData(){
         let data;
 
@@ -48,6 +53,9 @@ export default class BarChart extends BaseChart {
 
     }
 
+     /**
+     * @override
+     */
     getPlugins(){
         let plugins=super.getPlugins();
         plugins.legend.display=this.grouped; 
@@ -55,18 +63,22 @@ export default class BarChart extends BaseChart {
         return plugins; 
     }
 
+    updateStackStatus(){
+        this.chart.config.options.scales.x.stacked=!this.chart.config.options.scales.x.stacked; 
+        this.chart.config.options.scales.y.stacked=!this.chart.config.options.scales.y.stacked;
+        this.update(); 
+    }
+
     displayDynamicOptions(){
-        (document.getElementById('barOptions')).style.display='inline'; 
+        (document.getElementById('barOptions')).style.display='block'; 
         (document.getElementById('vertical')).checked=true; 
-        document.getElementById('stackOption').style.display=this.grouped?'inline':'none'; 
+        document.getElementById('stackOption').style.display=this.grouped?'block':'none'; 
         (document.getElementById('stack')).checked=true; 
         document.getElementById('scaleOptions').style.display='block';
     }
 
     
-    /**
-     * additional JSONData manipulation (not needed when JSONData is in correct format)
-     */
+     // ----------------------- Data manipulation functions  -----------------------
 
     getGroupedData(){ 
     let dataLabels=this.getGroupedXValue(); 
@@ -99,6 +111,9 @@ export default class BarChart extends BaseChart {
 
     }
    
+     /**
+     * @override
+     */
     getGroupedYValue(xData,groupCategory){
 
         let yData=[]; 
@@ -109,7 +124,7 @@ export default class BarChart extends BaseChart {
        for(let i=0; i<numberOfElements; i++){
           yData[i]=[]; 
           yData[i].length=numberOfCategories; 
-          yData[i].fill(null); 
+          yData[i].fill(null); // when an xData has no value in a group, its y Value is set to null
         }; 
       
       

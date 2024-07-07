@@ -62,7 +62,7 @@
 
     "DataChartType": "LineChart",
     "DataChartXFieldLabel": "Date de creation",
-    "DataChartYFeildLabel": "Cumulatif Nb. d'employes",
+    "DataChartYFieldLabel": "Cumulatif Nb. d'employes",
     "GroupedBy":"Secteur d'activite" 
 
   }

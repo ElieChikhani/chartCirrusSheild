@@ -9,23 +9,15 @@
 
       {
         "Name": "Agriculture-France",
-        "Value": 20,
+        "Value": 4,
         "ChartJS_Color": "rgb(0,0,255)"
       },
 
       {
         "Name": "Agriculture-Pologne",
-        "Value": 30,
+        "Value": 8,
         "ChartJS_Color": "rgb(0,0,255)"
       },
-
-      {
-        "Name": "Agriculture-Canada",
-        "Value": 10,
-        "ChartJS_Color": "rgb(0,0,255)"
-      },
-
-  
 
       {
         "Name": "Assurance-Liban",
@@ -36,7 +28,7 @@
 
       {
         "Name": "Assurance-France",
-        "Value": 22,
+        "Value": 10,
         "ChartJS_Color": "rgb(0,255,0)"
       },
 
@@ -46,23 +38,17 @@
         "ChartJS_Color": "rgb(0,255,0)"
       },
 
-      {
-        "Name": "Assurance-Canada",
-        "Value": 90,
-        "ChartJS_Color": "rgb(0,255,0)"
-      },
-
 
       {
         "Name": "Association-Liban",
-        "Value": 0.2,
+        "Value": 0.4,
         "ChartJS_Color": "rgb(255,255,0)"
 
       },
 
       {
         "Name": "Association-France",
-        "Value": 5,
+        "Value": 3,
         "ChartJS_Color": "rgb(255,255,0)"
       },
 
@@ -70,20 +56,14 @@
         "Name": "Association-Pologne",
         "Value": 30,
         "ChartJS_Color": "rgb(255,255,0)"
-      },
-
-      {
-        "Name": "Association-Canada",
-        "Value": 30,
-        "ChartJS_Color": "rgb(255,255,0)"
       }
-     
+
      
     ],
 
     "DataChartType": "PieChart",
     "DataChartXFieldLabel": "Secteur d'activité",
-    "DataChartYFeildLabel": "Nb. d'employes",
+    "DataChartYFieldLabel": "Nb. d'employes",
     "GroupedBy":"Pays" 
 
   }
