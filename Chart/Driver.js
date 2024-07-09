@@ -17,7 +17,7 @@ async function fetchData(url) {
     return response.json();
 }
 
-let testUrl='../testData/'+'groupedBubble.json'; 
+let testUrl='../testData/'+'regular1.json'; 
 createChart(testUrl); 
 
 

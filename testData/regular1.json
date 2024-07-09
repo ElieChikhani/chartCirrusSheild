@@ -22,7 +22,7 @@
       {
         "Name": "Education",
         "Value": 5000,
-        "ChartJS_Color": "rgb(255,0,255)"
+        "ChartJS_Color": "rgba(255,0,255,0.5)"
       }
      
     ],

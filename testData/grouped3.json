@@ -41,7 +41,7 @@
 
       {
         "Name": "Association-Liban",
-        "Value": 0.4,
+        "Value": 0.2,
         "ChartJS_Color": "rgb(255,255,0)"
 
       },
@@ -55,7 +55,7 @@
       {
         "Name": "Association-Pologne",
         "Value": 30,
-        "ChartJS_Color": "rgb(255,255,0)"
+        "ChartJS_Color": "rgba(255,255,0)"
       }
 
      

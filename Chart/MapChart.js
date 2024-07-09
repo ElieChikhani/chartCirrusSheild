@@ -25,6 +25,8 @@ export default class MapChart extends BaseChart {
 
      /**
      * @override
+     * 
+     * all countries in the TopoJson file should be mentioned in the chart data. 
      */
     mapData(countries){
         let data= {
@@ -39,9 +41,7 @@ export default class MapChart extends BaseChart {
         return data; 
     }  
 
-     /**
-     * @override
-     */
+    //searching for the value of the countrie in the data, if countrie not found, return 0.
     getValue(country) {
         let item = this.jsonData.Data.find(item => item.country == country);
         return item ? item.value : 0;
@@ -59,8 +59,6 @@ export default class MapChart extends BaseChart {
             options: this.getOptions(),
         } 
       }   
-
-      console.log(this.config); 
     }
     
      /**

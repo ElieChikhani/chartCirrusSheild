@@ -17,6 +17,18 @@
         "Name": "Assurance",
         "Value": 50,
         "ChartJS_Color": "rgb(255,0,0)"
+      },
+
+      {
+        "Name": "Education",
+        "Value": 10,
+        "ChartJS_Color": "rgb(255,255,100)"
+      },
+
+      {
+        "Name": "Technologie",
+        "Value": 5,
+        "ChartJS_Color": "rgb(120,20,0)"
       }
 
      

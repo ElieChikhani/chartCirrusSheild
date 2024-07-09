@@ -7,10 +7,18 @@ export default class ColorService {
       return luminance > 186; // A commonly used threshold for contrast
     }
 
+    //transform any color format to rgb format 
     static getRGBColor(color) {
       if(color){
       if (color.startsWith('rgb')) {
-          return color;
+        if (color.startsWith('rgba')) {
+          let parts = color.slice(5, -1).split(',');
+          let r = parts[0].trim();
+          let g = parts[1].trim();
+          let b = parts[2].trim();
+          return `rgb(${r}, ${g}, ${b})`;
+        }
+          return color; 
       } else if (color.startsWith('#')) {
           let hex = color.slice(1);
 
@@ -23,14 +31,13 @@ export default class ColorService {
           if (hex.length === 8) {
               hex = hex.slice(0, 6);
           }
-
           let r = parseInt(hex.slice(0, 2), 16);
           let g = parseInt(hex.slice(2, 4), 16);
           let b = parseInt(hex.slice(4, 6), 16);
 
           return `rgb(${r}, ${g}, ${b})`;
-      }else{
-      throw new Error("Invalid color format");
+      } else{
+         throw new Error("Invalid color format");
       }
     }
 
@@ -59,5 +66,5 @@ export default class ColorService {
 
   }
 
-  }
+}
 

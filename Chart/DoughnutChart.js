@@ -1,8 +1,6 @@
 import PieChart from './PieChart.js'; 
 
-export default class DoughnutChart extends PieChart {
-
-  MIN_THICKNESS = 60
+export default class DoughnutChart extends PieChart { 
 
     constructor(clx,fetchedData){
         super(clx,fetchedData);
@@ -20,8 +18,16 @@ export default class DoughnutChart extends PieChart {
      */
     getOptions(){
         let options = super.getOptions();
-        options.cutout='35%'; 
+        options.cutout= 50 ;  
         return options; 
     }
 
-  }
+    /**
+     * @override
+     * removing the cutout percentage of the outeradius and find the thickness
+     */
+    getThickness(outerRadius){
+        return (outerRadius - (this.config.options.cutout/100)*outerRadius) / this.numberOfGroups; 
+    }
+
+}

@@ -8,7 +8,6 @@ export default class BubbleChart extends BaseChart {
 
     /**
      * @override
-     * @returns type : string
      */
     getType(){
         return 'bubble';

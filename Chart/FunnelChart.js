@@ -20,6 +20,15 @@ export default class FunnelChart extends BaseChart {
         return (this.yAxisLabel+' par '+this.xAxisLabel); 
     }
 
+      /**
+     * @override
+     */
+      mapData(){
+        let data=super.mapData();  
+        data.datasets[0].backgroundColor=this.getColorData(data.labels); 
+        return data; 
+    }
+
      /**
      * @override
      */
@@ -64,14 +73,7 @@ export default class FunnelChart extends BaseChart {
         return options; 
     }
 
-     /**
-     * @override
-     */
-    mapData(){
-        let data=super.mapData();  
-        data.datasets[0].backgroundColor=this.getColorData(data.labels); 
-        return data; 
-    }
+
 
 
 

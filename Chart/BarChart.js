@@ -72,7 +72,7 @@ export default class BarChart extends BaseChart {
     displayDynamicOptions(){
         (document.getElementById('barOptions')).style.display='block'; 
         (document.getElementById('vertical')).checked=true; 
-        document.getElementById('stackOption').style.display=this.grouped?'block':'none'; 
+        document.getElementById('stackOption').style.display=this.grouped?'inline':'none'; 
         (document.getElementById('stack')).checked=true; 
         document.getElementById('scaleOptions').style.display='block';
     }

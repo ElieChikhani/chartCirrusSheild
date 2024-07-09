@@ -161,7 +161,7 @@ export default class HeatChart extends BaseChart {
         return plugins;    
     }
 
-    
+    //fix the color of the value according to the range. 
     getColor(value,min,max) {
         const opacity = ((value - min) / (max - min)) + 0.1;
         return `rgba(0, 0, 255, ${opacity})`; // fixed color blue. 
@@ -172,7 +172,7 @@ export default class HeatChart extends BaseChart {
     return {
         id: 'colorBarPlugin',
         afterDraw: (chart) => {
-        let {ctx, chartArea} = chart;
+        let {ctx, chartArea} = chart; 
         let barWidth = 10;
         let barHeight = (chartArea.bottom - chartArea.top) * 0.25; // 25% of the chart height
         let margin = 20; // Define the margin between the chart and the color bar
@@ -187,14 +187,15 @@ export default class HeatChart extends BaseChart {
 
         ctx.restore();
 
-        this.fillBarValues(chartArea,barWidth,barHeight,margin,ctx); 
+        this.fillBarValues(chartArea,barWidth,barHeight,margin); 
         }
 
        } 
     }
 
-    fillBarValues(chartArea,barWidth,barHeight,margin,ctx){
-
+    
+    fillBarValues(chartArea,barWidth,barHeight,margin){
+        let ctx = this.clx; 
         let topValue = this.maxValue;
         let bottomValue = this.minValue;
         let centerValue = Math.floor((topValue - bottomValue)/2);
@@ -218,6 +219,6 @@ export default class HeatChart extends BaseChart {
 
     }
 
-    
+    c
    
 }

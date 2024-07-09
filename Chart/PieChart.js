@@ -79,12 +79,16 @@ export default class PieChart extends BaseChart {
 
       let chartArea = context.chart.chartArea
       let outerRadius = Math.min(chartArea.right - chartArea.left, chartArea.bottom - chartArea.top) / 2;
-      let thickness = outerRadius/this.numberOfGroups; 
+      let thickness = this.getThickness(outerRadius); 
       let groupIndex = context.datasetIndex; 
       let middleArcLength = this.getMiddleArcLength(thickness,groupIndex,sliceAngle,outerRadius); 
       let labelLength = this.getLabelLength(label);
-
       return this.canDisplayDatalabel(thickness, middleArcLength, labelLength) ? value + '\n' + percentage+'%' : ' '; 
+    }
+
+    //will be overridden in the douhgnut chart. 
+    getThickness(outerRadius){
+      return outerRadius/this.numberOfGroups;
     }
 
     getMiddleArcLength(thickness,groupIndex,sliceAngle,outerRadius){
@@ -165,7 +169,6 @@ export default class PieChart extends BaseChart {
      */
     getOptions(){
       let options = super.getOptions();
-      console.log(options); 
       options.aspectRatio=1.5
       options.plugins.tooltip=this.getTooltip()
       return options; 
